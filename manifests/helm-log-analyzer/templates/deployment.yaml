@@ -23,7 +23,7 @@ spec:
         - containerPort: 5000
         env:
         - name: OLLAMA_BASE_URL
-          value: "http://ollama.devops-ai.svc.cluster.local:11434"
+          value: {{ .Values.ollama.baseUrl | quote }}
         envFrom:
         - secretRef:
             name: openai-secret

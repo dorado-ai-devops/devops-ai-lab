@@ -6,7 +6,14 @@ This repository is available in multiple languages.
 ---
 
 🤖 **AI-integrated local DevOps simulation lab**  
-Simula un entorno DevOps completo (Jenkins + Kubernetes + IA) totalmente local, incluyendo análisis de logs, validación de Helm Charts y generación de pipelines desde texto.
+
+Simula un entorno DevOps completo (Jenkins + Kubernetes + IA) totalmente local, incluyendo análisis de logs, validación de Helm Charts y generación de pipelines desde texto.  
+Incluye despliegue modular con Helm + ArgoCD (GitOps) y soporte para OpenAI y Ollama.
+
+--
+
+Simulates a complete DevOps environment (Jenkins + Kubernetes + AI) fully locally, including log analysis, Helm Chart validation, and pipeline generation from natural language.
+Includes modular deployment with Helm + ArgoCD (GitOps) and support for both OpenAI and Ollama.
 
 🧠 Modular • 100% local • Preparado para pipelines reales  
 🧠 Modular • Fully local • Ready for real pipelines
@@ -28,4 +35,5 @@ Simula un entorno DevOps completo (Jenkins + Kubernetes + IA) totalmente local, 
 
 ---
 
-📁 Repositorio mantenido por [@dorado-ai-devops](https://github.com/dorado-ai-devops)
+📁 Repositorio mantenido por [@dorado-ai-devops](https://github.com/dorado-ai-devops)  
+🔗 [LinkedIn – Daniel Dorado](https://www.linkedin.com/in/doradodaniel/)
