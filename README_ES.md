@@ -35,7 +35,7 @@ Este entorno está diseñado para ejecutarse completamente en local, utilizando 
 ```
 devops-ai-lab/
 ├── cluster/            # Configuración del clúster local (Kind)
-├── manifests/          # Manifiestos Kubernetes para desplegar servicios IA
+├── manifests/          # Manifiestos Kubernetes para desplegar servicios
 ├── pipelines/          # Jenkinsfiles y scripts de integración
 ├── docs/               # Diagramas, capturas y documentación técnica
 └── README.md
@@ -46,7 +46,7 @@ devops-ai-lab/
 ## 📌 Estado del proyecto
 
 - [x] `ai-log-analyzer-devops` funcional y desplegado
-- [ ] Integración local de Jenkins CI
+- [x] Integración local de Jenkins CI
 - [ ] Validación de Helm Charts con IA (`helm-linter-ai`)
 - [ ] Generador de pipelines desde texto (`pipeline-ai`)
 

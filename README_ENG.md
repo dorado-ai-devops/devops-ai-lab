@@ -50,7 +50,7 @@ This secret will be mounted into the pods as environment variables and **must no
 ```
 devops-ai-lab/
 ├── cluster/            # Local cluster configuration (Kind)
-├── manifests/          # Kubernetes manifests for deploying AI services
+├── manifests/          # Kubernetes manifests for deploying services
 ├── pipelines/          # Jenkinsfiles and integration scripts
 ├── docs/               # Diagrams, screenshots, and architecture documentation
 └── README.md
