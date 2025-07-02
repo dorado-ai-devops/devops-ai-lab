@@ -1,0 +1,47 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env
+.env.*
+
+# Logs
+*.log
+logs/*.log
+
+# VSCode / IDE / Editor config
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# macOS / Windows / Linux noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Git metadata
+*.swp
+*.bak
+*.tmp
+
+# Python packaging
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Test cache
+.pytest_cache/
+
+# Exported markdowns or temp files
+*.Zone.Identifier
+
+# Ollama cache (if used locally)
+ollama_models/
