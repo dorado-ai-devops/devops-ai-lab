@@ -1,5 +1,5 @@
 # devops-ai-lab/cluster/kind-config.yaml
-kind: Cluster
+kind: Clusterup
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
