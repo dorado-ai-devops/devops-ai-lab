@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: log-analyzer-service
+  namespace: devops-ai
+spec:
+  selector:
+    app: log-analyzer
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: 5000
+      nodePort: {{ .Values.service.nodePort }}
+  type: {{ .Values.service.type }}

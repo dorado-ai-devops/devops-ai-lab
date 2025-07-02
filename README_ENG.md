@@ -26,6 +26,9 @@ This environment is designed to run entirely locally, using Kubernetes with Kind
 - Jenkins container
 - AI microservices deployed in the cluster
 - Compatible with manual testing and real CI automation
+- Helm chart support for `ai-log-analyzer-devops`
+- CI integration pipeline in Jenkins connected to GitHub repo
+- Secret injection for OpenAI API keys into Kubernetes
 
 ---
 
@@ -45,14 +48,31 @@ This secret will be mounted into the pods as environment variables and **must no
 
 ---
 
+## 📦 Helm Chart Support
+
+`ai-log-analyzer-devops` now supports Helm-based deployment.  
+The chart structure aligns with existing manifests and allows for easy integration with GitOps tools like ArgoCD.
+
+To install:
+
+```bash
+helm install log-analyzer ./charts/log-analyzer -n devops-ai
+```
+
+Helm values are pre-configured for local development (`NodePort`, `IfNotPresent`, `envFrom` for OpenAI secret).
+
+---
+
 ## 📂 Repository Structure
 
 ```
 devops-ai-lab/
-├── cluster/            # Local cluster configuration (Kind)
-├── manifests/          # Kubernetes manifests for deploying services
-├── pipelines/          # Jenkinsfiles and integration scripts
-├── docs/               # Diagrams, screenshots, and architecture documentation
+├── cluster/              # Local cluster configuration (Kind)
+├── manifests/            # Kubernetes manifests for deploying services
+├── charts/               # Helm charts for AI services
+│   └── log-analyzer/     # Helm chart for ai-log-analyzer
+├── pipelines/            # Jenkinsfiles and integration scripts
+├── docs/                 # Diagrams, screenshots, and architecture documentation
 └── README.md
 ```
 
@@ -61,7 +81,8 @@ devops-ai-lab/
 ## 📌 Project Status
 
 - [x] Functional and deployed `ai-log-analyzer-devops`
-- [ ] Local Jenkins CI integration
+- [x] Local Jenkins CI integration
+- [x] Helm-based deployment of `ai-log-analyzer-devops`
 - [ ] AI-based Helm Chart validation (`helm-linter-ai`)
 - [ ] Pipeline generation from text (`pipeline-ai`)
 
