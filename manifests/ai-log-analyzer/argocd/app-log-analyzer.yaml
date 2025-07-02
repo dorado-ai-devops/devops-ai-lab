@@ -4,14 +4,14 @@ metadata:
   name: log-analyzer
   namespace: argocd
 spec:
-  project: default
+  project: devops-ai-project
   source:
-    repoURL: git@github.com:dorado-ai-devops/devops-ai-lab.git
+    repoURL: git@github.com/dorado-ai-devops/devops-ai-lab.git
     targetRevision: HEAD
     path: manifests/helm-log-analyzer
     helm:
       valueFiles:
-        - manifests/ai-log-analyzer/argocd/values.yaml
+        - ../ai-log-analyzer/argocd/values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: devops-ai
