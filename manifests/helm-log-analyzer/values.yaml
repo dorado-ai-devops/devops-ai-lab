@@ -9,3 +9,7 @@ service:
   type: NodePort
   port: 80
   nodePort: 30973
+
+ollama:
+  baseUrl: "http://ollama.devops-ai.svc.cluster.local:11434"
+
