@@ -9,13 +9,14 @@ jobs:
   create_pull_request:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'Auto update PR: develop → main'
-          branch: develop         # rama origen
-          base: main             # rama destino
+          branch: develop
+          base: main
           title: 'Auto PR: Sync develop into main'
           body: 'Automated PR created to merge changes from develop into main branch.'
           draft: false
