@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ollama
+  namespace: argocd
+spec:
+  project: devops-ai-project
+  source:
+    repoURL: git@github.com/dorado-ai-devops/devops-ai-lab.git
+    targetRevision: HEAD
+    path: manifests/ollama
+    helm:
+      valueFiles:
+        - manifests/ollama/argocd/values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: devops-ai
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
