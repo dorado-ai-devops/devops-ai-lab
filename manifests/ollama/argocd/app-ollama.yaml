@@ -8,10 +8,10 @@ spec:
   source:
     repoURL: git@github.com/dorado-ai-devops/devops-ai-lab.git
     targetRevision: HEAD
-    path: manifests/ollama
+    path: manifests/helm-ollama
     helm:
       valueFiles:
-        - manifests/ollama/argocd/values.yaml
+        - ../ollama/argocd/values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: devops-ai
