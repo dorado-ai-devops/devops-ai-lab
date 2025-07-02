@@ -35,7 +35,7 @@ Este entorno está diseñado para ejecutarse completamente en local, utilizando 
 ```
 devops-ai-lab/
 ├── cluster/            # Configuración del clúster local (Kind)
-├── manifests/          # Manifiestos Kubernetes para desplegar servicios IA
+├── manifests/          # Manifiestos Kubernetes para desplegar servicios
 ├── pipelines/          # Jenkinsfiles y scripts de integración
 ├── docs/               # Diagramas, capturas y documentación técnica
 └── README.md
