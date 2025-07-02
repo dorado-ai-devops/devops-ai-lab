@@ -1,21 +1,43 @@
 pipeline {
   agent any
 
+  parameters {
+    choice(
+      name: 'MODELO_IA',
+      choices: ['openai', 'ollama'],
+      description: 'Selecciona el motor de IA para analizar los logs'
+    )
+  }
+
   environment {
-    OPENAI_API_KEY = credentials('OPENAI_API_KEY')
+    OPENAI_API_KEY = credentials('OPENAI_API_KEY') // Solo necesario si se usa OpenAI
   }
 
   stages {
-    stage('Call AI Log Analyzer') {
+    stage('Llamar al AI Log Analyzer') {
       steps {
         script {
-          def response = sh(script: """
+          def logText = "Build failed: unable to connect to database"
+          def jsonPayload = """{ "log": "${logText}", "mode": "${params.MODELO_IA}" }"""
+
+          // Construye la llamada curl según el modelo
+          def curlCommand = """
             curl -X POST http://log-analyzer-service.devops-ai.svc.cluster.local:80/analyze \\
               -H "Content-Type: application/json" \\
-              -H "Authorization: Bearer $OPENAI_API_KEY" \\
-              -d '{ "log": "Build failed: unable to connect to database" }'
-          """, returnStdout: true).trim()
-          echo "Response: ${response}"
+              -d '${jsonPayload}'
+          """
+
+          if (params.MODELO_IA == 'openai') {
+            curlCommand = """
+              curl -X POST http://log-analyzer-service.devops-ai.svc.cluster.local:80/analyze \\
+                -H "Content-Type: application/json" \\
+                -H "Authorization: Bearer $OPENAI_API_KEY" \\
+                -d '${jsonPayload}'
+            """
+          }
+
+          def response = sh(script: curlCommand, returnStdout: true).trim()
+          echo "🧠 Respuesta IA (${params.MODELO_IA}): ${response}"
         }
       }
     }
