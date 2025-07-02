@@ -3,7 +3,7 @@
 Central repository for simulating modern DevOps environments with integrated artificial intelligence in key CI/CD tasks.  
 Includes functional components for log analysis, Helm chart validation, and CI/CD pipeline generation from natural language descriptions.
 
-This environment is designed to run entirely locally, using Kubernetes with Kind, Jenkins, and modularly deployed AI microservices.
+This environment runs entirely locally, using Kubernetes with Kind, Jenkins, ArgoCD, and modularly deployed AI microservices.
 
 ---
 
@@ -23,20 +23,21 @@ This environment is designed to run entirely locally, using Kubernetes with Kind
 ## ⚙️ Local Infrastructure
 
 - Local Kubernetes via `kind`
-- Jenkins container
-- AI microservices deployed in the cluster
-- Compatible with manual testing and real CI automation
-- Helm chart support for `ai-log-analyzer-devops`
-- CI integration pipeline in Jenkins connected to GitHub repo
-- Secret injection for OpenAI API keys into Kubernetes
+- Jenkins (via Deployment + PVC)
+- ArgoCD with GitOps integration
+- AI microservices deployed as Helm charts
+- Helm-based deployment support
+- Externalized `values.yaml` for GitOps workflows
+- Secrets support for OpenAI API keys
+- Fully traceable CI/CD pipeline via Jenkins + GitHub
 
 ---
 
 ## 🔐 Secrets Required
 
-> Some AI services require API keys (e.g., OpenAI) to function. These must be stored securely in your local cluster.
+Some AI services require API keys (e.g., OpenAI) to function. These must be securely stored in the cluster.
 
-Before deploying any AI service that uses external LLMs, you must create the required Kubernetes secret:
+Create the required secret before deploying services:
 
 ```bash
 kubectl create secret generic openai-api-secret \
@@ -44,22 +45,33 @@ kubectl create secret generic openai-api-secret \
   -n devops-ai
 ```
 
-This secret will be mounted into the pods as environment variables and **must not be committed to version control**.
+This secret is referenced in Helm values and injected as environment variables.
 
 ---
 
-## 📦 Helm Chart Support
+## 🚀 Helm Chart Deployment
 
-`ai-log-analyzer-devops` now supports Helm-based deployment.  
-The chart structure aligns with existing manifests and allows for easy integration with GitOps tools like ArgoCD.
+`ai-log-analyzer-devops` supports Helm-based deployment.  
+Charts are located under:
 
-To install:
-
-```bash
-helm install log-analyzer ./charts/log-analyzer -n devops-ai
+```
+manifests/helm-log-analyzer/
 ```
 
-Helm values are pre-configured for local development (`NodePort`, `IfNotPresent`, `envFrom` for OpenAI secret).
+To install manually:
+
+```bash
+helm install log-analyzer ./manifests/helm-log-analyzer -n devops-ai
+```
+
+Alternatively, deployment is managed by **ArgoCD** using this structure:
+
+```
+manifests/ai-log-analyzer/argocd/
+├── app-log-analyzer.yaml   # ArgoCD Application
+├── project.yaml            # ArgoCD Project
+└── values.yaml             # Externalized Helm values
+```
 
 ---
 
@@ -69,8 +81,8 @@ Helm values are pre-configured for local development (`NodePort`, `IfNotPresent`
 devops-ai-lab/
 ├── cluster/              # Local cluster configuration (Kind)
 ├── manifests/            # Kubernetes manifests for deploying services
-├── charts/               # Helm charts for AI services
-│   └── log-analyzer/     # Helm chart for ai-log-analyzer
+├── manifests/helm-log-analyzer/   # Helm chart for ai-log-analyzer
+├── manifests/ai-log-analyzer/argocd/  # GitOps with ArgoCD
 ├── pipelines/            # Jenkinsfiles and integration scripts
 ├── docs/                 # Diagrams, screenshots, and architecture documentation
 └── README.md
@@ -83,6 +95,7 @@ devops-ai-lab/
 - [x] Functional and deployed `ai-log-analyzer-devops`
 - [x] Local Jenkins CI integration
 - [x] Helm-based deployment of `ai-log-analyzer-devops`
+- [x] GitOps via ArgoCD
 - [ ] AI-based Helm Chart validation (`helm-linter-ai`)
 - [ ] Pipeline generation from text (`pipeline-ai`)
 

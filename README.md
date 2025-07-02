@@ -23,4 +23,9 @@ Simula un entorno DevOps completo (Jenkins + Kubernetes + IA) totalmente local, 
 
 ---
 
+📌 En este índice se añadirá próximamente un esquema visual del entorno.  
+📌 A visual diagram of the architecture will be added soon.
+
+---
+
 📁 Repositorio mantenido por [@dorado-ai-devops](https://github.com/dorado-ai-devops)

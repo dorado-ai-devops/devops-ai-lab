@@ -1,42 +1,43 @@
 # 🧪 devops-ai-lab
 
-Repositorio central para simular entornos DevOps modernos con inteligencia artificial integrada en tareas clave de CI/CD.  
-Incluye componentes funcionales para análisis de logs, validación de charts Helm y generación de pipelines CI/CD a partir de descripciones en lenguaje natural.
+Repositorio central para simular entornos modernos de DevOps con inteligencia artificial integrada en tareas clave de CI/CD.  
+Incluye componentes funcionales para análisis de logs, validación de charts de Helm y generación de pipelines CI/CD a partir de descripciones en lenguaje natural.
 
-Este entorno está diseñado para ejecutarse completamente en local, usando Kubernetes con Kind, Jenkins y microservicios de IA desplegados de forma modular.
+Este entorno se ejecuta completamente en local, utilizando Kubernetes con Kind, Jenkins, ArgoCD y microservicios de IA desplegados modularmente.
 
 ---
 
 ## 🧱 Componentes Principales
 
 - 🔍 [`ai-log-analyzer-devops`](https://github.com/dorado-ai-devops/ai-log-analyzer-devops)  
-  Análisis inteligente de logs para Jenkins, Kubernetes y pipelines CI/CD utilizando LLMs.
+  Análisis inteligente de logs de Jenkins, Kubernetes y pipelines CI/CD usando LLMs.
 
 - 📦 `helm-linter-ai` *(próximamente)*  
-  Validación semántica y estructural de charts Helm con LLMs.
+  Validación semántica y estructural de charts Helm mediante LLMs.
 
 - ⚙️ `pipeline-ai` *(próximamente)*  
-  Generación automática de pipelines CI/CD a partir de lenguaje natural.
+  Generación automática de pipelines CI/CD a partir de texto natural.
 
 ---
 
 ## ⚙️ Infraestructura Local
 
 - Kubernetes local mediante `kind`
-- Contenedor Jenkins
-- Microservicios de IA desplegados en el clúster
-- Compatible con pruebas manuales y automatización CI real
-- Soporte de Helm Chart para `ai-log-analyzer-devops`
-- Pipeline de integración CI en Jenkins conectado al repo de GitHub
-- Inyección de secretos de API (OpenAI) en Kubernetes
+- Jenkins (con Deployment + PVC)
+- ArgoCD con integración GitOps
+- Microservicios de IA desplegados como charts Helm
+- Soporte para despliegue mediante Helm
+- `values.yaml` externalizado para flujos GitOps
+- Soporte de secretos para claves API de OpenAI
+- Pipeline CI/CD completamente trazable con Jenkins + GitHub
 
 ---
 
-## 🔐 Secretos Requeridos
+## 🔐 Secretos Necesarios
 
-> Algunos servicios de IA requieren claves API (por ejemplo, OpenAI) para funcionar. Estas deben almacenarse de forma segura en el clúster local.
+Algunos servicios de IA requieren claves API (por ejemplo, OpenAI) para funcionar. Estas deben almacenarse de forma segura en el clúster.
 
-Antes de desplegar cualquier servicio que use LLMs externos, crea el secreto correspondiente:
+Crear el secreto requerido antes de desplegar los servicios:
 
 ```bash
 kubectl create secret generic openai-api-secret \
@@ -44,22 +45,33 @@ kubectl create secret generic openai-api-secret \
   -n devops-ai
 ```
 
-Este secreto será montado en los pods como variables de entorno y **no debe subirse al control de versiones**.
+Este secreto se referencia en los valores de Helm y se inyecta como variables de entorno.
 
 ---
 
-## 📦 Soporte Helm Chart
+## 🚀 Despliegue con Helm Chart
 
-`ai-log-analyzer-devops` ahora permite despliegue mediante Helm.  
-La estructura del chart es compatible con los manifiestos existentes y facilita la integración con herramientas GitOps como ArgoCD.
+`ai-log-analyzer-devops` admite despliegue mediante Helm.  
+Los charts se encuentran en:
 
-Para instalar:
-
-```bash
-helm install log-analyzer ./charts/log-analyzer -n devops-ai
+```
+manifests/helm-log-analyzer/
 ```
 
-Los valores están preconfigurados para desarrollo local (`NodePort`, `IfNotPresent`, `envFrom` para el secreto OpenAI).
+Para instalar manualmente:
+
+```bash
+helm install log-analyzer ./manifests/helm-log-analyzer -n devops-ai
+```
+
+Alternativamente, el despliegue se gestiona con **ArgoCD** usando esta estructura:
+
+```
+manifests/ai-log-analyzer/argocd/
+├── app-log-analyzer.yaml   # Aplicación ArgoCD
+├── project.yaml            # Proyecto ArgoCD
+└── values.yaml             # Valores Helm externalizados
+```
 
 ---
 
@@ -68,11 +80,11 @@ Los valores están preconfigurados para desarrollo local (`NodePort`, `IfNotPres
 ```
 devops-ai-lab/
 ├── cluster/              # Configuración del clúster local (Kind)
-├── manifests/            # Manifiestos de Kubernetes para los servicios
-├── charts/               # Helm charts para servicios IA
-│   └── log-analyzer/     # Helm chart para ai-log-analyzer
+├── manifests/            # Manifiestos Kubernetes para desplegar servicios
+├── manifests/helm-log-analyzer/   # Chart Helm para ai-log-analyzer
+├── manifests/ai-log-analyzer/argocd/  # GitOps con ArgoCD
 ├── pipelines/            # Jenkinsfiles y scripts de integración
-├── docs/                 # Diagramas, capturas y documentación de arquitectura
+├── docs/                 # Diagramas, capturas y documentación técnica
 └── README.md
 ```
 
@@ -82,8 +94,9 @@ devops-ai-lab/
 
 - [x] `ai-log-analyzer-devops` funcional y desplegado
 - [x] Integración CI local con Jenkins
-- [x] Despliegue vía Helm de `ai-log-analyzer-devops`
-- [ ] Validación de charts Helm con IA (`helm-linter-ai`)
+- [x] Despliegue mediante Helm
+- [x] GitOps con ArgoCD
+- [ ] Validación de Helm Charts con IA (`helm-linter-ai`)
 - [ ] Generación de pipelines desde texto (`pipeline-ai`)
 
 ---
