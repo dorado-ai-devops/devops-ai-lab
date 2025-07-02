@@ -46,7 +46,7 @@ devops-ai-lab/
 ## 📌 Estado del proyecto
 
 - [x] `ai-log-analyzer-devops` funcional y desplegado
-- [ ] Integración local de Jenkins CI
+- [x] Integración local de Jenkins CI
 - [ ] Validación de Helm Charts con IA (`helm-linter-ai`)
 - [ ] Generador de pipelines desde texto (`pipeline-ai`)
 

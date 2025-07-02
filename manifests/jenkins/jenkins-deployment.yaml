@@ -22,7 +22,13 @@ spec:
         volumeMounts:
         - name: jenkins-home
           mountPath: /var/jenkins_home
+        - name: ssh-known-hosts
+          mountPath: /var/jenkins_home/.ssh/known_hosts
+          subPath: known_hosts
       volumes:
       - name: jenkins-home
         persistentVolumeClaim:
           claimName: jenkins-pvc
+      - name: ssh-known-hosts
+        configMap:
+          name: jenkins-known-hosts
