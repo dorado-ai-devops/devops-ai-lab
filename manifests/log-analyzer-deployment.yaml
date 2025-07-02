@@ -21,4 +21,3 @@ spec:
         - containerPort: 5000
         env:
         - name: OPENAI_API_KEY
-          value: "sk-xxx" # Sustituye esto por una real si quieres hacer pruebas en clúster
