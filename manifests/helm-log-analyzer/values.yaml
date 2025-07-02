@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: log-analyzer
-  tag: dev
+  tag: v0.1.6
   pullPolicy: IfNotPresent
 
 service:
