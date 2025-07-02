@@ -14,9 +14,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'Auto update PR: develop → main'
-          branch: main
-          base: main
-          head: develop
+          branch: develop         # rama origen
+          base: main             # rama destino
           title: 'Auto PR: Sync develop into main'
           body: 'Automated PR created to merge changes from develop into main branch.'
           draft: false
