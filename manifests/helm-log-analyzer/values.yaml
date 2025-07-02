@@ -1,0 +1,11 @@
+replicaCount: 1
+
+image:
+  repository: log-analyzer
+  tag: dev
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30973
