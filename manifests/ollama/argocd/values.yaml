@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+  repository: ollama/ollama
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 11434
+
+persistence:
+  enabled: false
+  mountPath: /root/.ollama
+  volumeName: ollama-data
