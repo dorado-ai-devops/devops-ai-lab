@@ -21,6 +21,10 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: 5000
+        env:
+        - name: OLLAMA_BASE_URL
+          value: "http://ollama.devops-ai.svc.cluster.local:11434"
         envFrom:
         - secretRef:
             name: openai-secret
+          
