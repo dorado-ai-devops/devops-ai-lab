@@ -29,6 +29,22 @@ This environment is designed to run entirely locally, using Kubernetes with Kind
 
 ---
 
+## 🔐 Secrets Required
+
+> Some AI services require API keys (e.g., OpenAI) to function. These must be stored securely in your local cluster.
+
+Before deploying any AI service that uses external LLMs, you must create the required Kubernetes secret:
+
+```bash
+kubectl create secret generic openai-api-secret \
+  --from-literal=OPENAI_API_KEY=sk-xxx \
+  -n devops-ai
+```
+
+This secret will be mounted into the pods as environment variables and **must not be committed to version control**.
+
+---
+
 ## 📂 Repository Structure
 
 ```
