@@ -1,6 +1,6 @@
 # 🧪 devops-ai-lab
 
-![devops-ai-lab-diagram](./imagesdevops-ai-lab.drawio.png)
+![devops-ai-lab-diagram](./images/devops-ai-lab.drawio.png)
 
 Este repositorio está disponible en múltiples idiomas.  
 This repository is available in multiple languages.
