@@ -1,7 +1,7 @@
-{{- define "helm-log-analyzer.name" -}}
-helm-log-analyzer
+{{- define "helm-gateway.name" -}}
+ai-gateway
 {{- end }}
 
-{{- define "helm-log-analyzer.fullname" -}}
-{{ .Release.Name }}-{{ include "helm-log-analyzer.name" . }}
+{{- define "helm-gateway.fullname" -}}
+{{ .Release.Name }}-{{ include "helm-gateway.name" . }}
 {{- end }}

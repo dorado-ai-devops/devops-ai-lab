@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "helm-log-analyzer.fullname" . }}
+  name: {{ include "helm-gateway.fullname" . }}
   namespace: devops-ai
   labels:
-    app: log-analyzer
+    app: ai-gateway
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: log-analyzer
+      app: ai-gateway
   template:
     metadata:
       labels:
-        app: log-analyzer
+        app: ai-gateway
     spec:
       containers:
-      - name: log-analyzer
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        ports:
-        - containerPort: 5000
-        env:
-        - name: OLLAMA_BASE_URL
-          value: {{ .Values.ollama.baseUrl | quote }}
-        envFrom:
-        - secretRef:
-            name: openai-secret
-          
+        - name: ai-gateway
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 5002
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
