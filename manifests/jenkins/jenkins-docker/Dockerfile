@@ -26,4 +26,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Instalar tiktoken sin drama
 RUN pip3 install --no-cache-dir --break-system-packages tiktoken
 
+# Añadir plugins esenciales
+COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
+RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
+
 USER jenkins
