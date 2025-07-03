@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-service
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: jenkins
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: 8080
+      nodePort: {{ .Values.service.nodePort }}
+    - name: agent
+      port: {{ .Values.service.agentPort }}
+      targetPort: 50000
+      nodePort: {{ .Values.service.agentNodePort }}

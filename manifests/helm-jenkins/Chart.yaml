@@ -1,0 +1,4 @@
+apiVersion: v2
+name: jenkins
+version: 0.1.0
+appVersion: "lts"

@@ -1,0 +1,14 @@
+image:
+  repository: jenkins/jenkins
+  tag: lts
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 8080
+  agentPort: 50000
+  nodePort: 30080
+  agentNodePort: 30050
+
+pvc:
+  existingClaim: jenkins-pvc
