@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  labels:
+    app: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+        - name: jenkins
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+            - containerPort: 50000
+          volumeMounts:
+            - name: jenkins-home
+              mountPath: /var/jenkins_home
+            - name: ssh-known-hosts
+              mountPath: /var/jenkins_home/.ssh/known_hosts
+              subPath: known_hosts
+      volumes:
+        - name: jenkins-home
+          persistentVolumeClaim:
+            claimName: {{ .Values.pvc.existingClaim }}
+        - name: ssh-known-hosts
+          configMap:
+            name: jenkins-known-hosts

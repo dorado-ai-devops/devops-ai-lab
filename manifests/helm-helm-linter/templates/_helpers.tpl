@@ -1,7 +1,7 @@
-{{- define "helm-log-analyzer.name" -}}
-helm-log-analyzer
+{{- define "helm-linter.name" -}}
+{{ .Chart.Name }}
 {{- end }}
 
-{{- define "helm-log-analyzer.fullname" -}}
-{{ .Release.Name }}-{{ include "helm-log-analyzer.name" . }}
+{{- define "helm-linter.fullname" -}}
+{{ .Release.Name }}
 {{- end }}

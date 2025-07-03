@@ -3,12 +3,14 @@ replicaCount: 1
 image:
   repository: ollama/ollama
   tag: latest
+  pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
   port: 11434
 
 persistence:
-  enabled: false
+  enabled: true
   mountPath: /root/.ollama
   volumeName: ollama-data
+  existingClaim: ollama-pvc
