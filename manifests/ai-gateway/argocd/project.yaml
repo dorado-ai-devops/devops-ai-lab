@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: devops-ai-project
+  namespace: argocd
+spec:
+  description: Project for AI-augmented DevOps services
+  sourceRepos:
+    - 'git@github.com/dorado-ai-devops/devops-ai-lab.git'
+  destinations:
+    - namespace: devops-ai
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

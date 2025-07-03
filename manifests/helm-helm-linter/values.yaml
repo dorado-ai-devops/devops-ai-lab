@@ -1,0 +1,15 @@
+replicaCount: 1
+
+image:
+  repository: log-analyzer
+  tag: v0.1.9
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30973
+
+ollama:
+  baseUrl: "http://ollama.devops-ai.svc.cluster.local:11434"
+

@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: log-analyzer
+  namespace: argocd
+spec:
+  project: devops-ai-project
+  source:
+    repoURL: git@github.com/dorado-ai-devops/devops-ai-lab.git
+    targetRevision: HEAD
+    path: manifests/helm-log-analyzer
+    helm:
+      valueFiles:
+        - ../ai-log-analyzer/argocd/values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: devops-ai
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
