@@ -25,7 +25,7 @@ load:
 
 update-values:
 	sed -i "s/^ *repository: .*/  repository: jenkins-helm/" $(HELM_VALUES)
-	sed -i "s/^ *tag: .*/  tag: v0.1.2/" $(HELM_VALUES)
+	sed -i "s/^ *tag: .*/  tag: $(VERSION)/" $(HELM_VALUES)
 
 sync:
 	argocd app sync $(ARGO_APP_NAME)
