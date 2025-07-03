@@ -4,14 +4,14 @@ metadata:
   name: jenkins
   namespace: argocd
 spec:
-  project: default
+  project: devops-ai-project
   source:
-    repoURL: 'https://github.com/tu-user/devops-ai-lab.git'
-    targetRevision: main
-    path: charts/jenkins
+    repoURL: git@github.com/dorado-ai-devops/devops-ai-lab.git
+    targetRevision: HEAD
+    path: manifests/helm-jenkins
     helm:
       valueFiles:
-        - values.yaml
+        - ../jenkins/argocd/values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: devops-ai
