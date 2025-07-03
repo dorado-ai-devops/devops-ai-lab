@@ -1,6 +1,6 @@
 apiVersion: v2
-name: helm-log-analyzer
-description: Helm chart for AI Log Analyzer microservice
+name: helm-gateway
+description: Helm chart for AI Gateway microservice
 type: application
-version: 0.1.5
+version: 0.1.0
 appVersion: "1.0"

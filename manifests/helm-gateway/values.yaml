@@ -1,15 +1,18 @@
 replicaCount: 1
 
 image:
-  repository: log-analyzer
-  tag: v0.1.9
+  repository: ai-gateway
+  tag: v0.1.0
   pullPolicy: IfNotPresent
 
 service:
+  port: 5002
   type: NodePort
-  port: 80
-  nodePort: 30973
-
-ollama:
-  baseUrl: "http://ollama.devops-ai.svc.cluster.local:11434"
-
+  nodePort: 30502
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi

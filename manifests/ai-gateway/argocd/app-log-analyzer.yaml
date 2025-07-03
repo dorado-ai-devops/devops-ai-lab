@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: log-analyzer
+  name: ai-gateway
   namespace: argocd
 spec:
   project: devops-ai-project
   source:
     repoURL: git@github.com/dorado-ai-devops/devops-ai-lab.git
     targetRevision: HEAD
-    path: manifests/helm-log-analyzer
+    path: manifests/helm-gateway
     helm:
       valueFiles:
-        - ../ai-log-analyzer/argocd/values.yaml
+        - ../ai-gateway/argocd/values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: devops-ai
