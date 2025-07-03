@@ -1,117 +1,141 @@
 # 🧪 devops-ai-lab
 
-Central repository for simulating modern DevOps environments with integrated artificial intelligence in key CI/CD tasks.  
-Includes functional components for log analysis, Helm chart validation, and CI/CD pipeline generation from natural language descriptions.
+Central repository for simulating modern DevOps environments with integrated artificial intelligence in key CI/CD tasks. Includes functional components for log analysis, Helm chart validation, CI/CD pipeline generation, and an API gateway for microservices orchestration.
 
-This environment runs entirely locally, using Kubernetes with Kind, Jenkins, ArgoCD, and modularly deployed AI microservices.
+This environment runs entirely locally using Kubernetes with Kind, Jenkins, ArgoCD, and modular AI microservices.
 
 ---
 
 ## 🧱 Main Components
 
-- 🔍 [`ai-log-analyzer-devops`](https://github.com/dorado-ai-devops/ai-log-analyzer-devops)  
-  Intelligent log analysis for Jenkins, Kubernetes, and CI/CD pipelines using LLMs (OpenAI remote API & Local Ollama inside Kubernetes)
+- 🔍 **ai-log-analyzer**  
+  Intelligent log analysis for Jenkins, Kubernetes, and CI/CD pipelines using LLMs (OpenAI remote API & local Ollama server).
 
-- 🧠 `ollama` – Local LLM server  
-  Deployed as a containerized service within the cluster, allowing offline analysis using models like LLaMA3 or Phi-3.
+- 📦 **ai-helm-linter**  
+  Semantic and structural validation of Helm charts using LLMs.  
+  - Validates `Chart.yaml`, `values.yaml`, and `templates/*`  
+  - Audits syntax, coherence, security best practices  
+  - Falls back to OpenAI when local models (Ollama) can’t handle edge cases
 
-- 📦 `helm-linter-ai` *(coming soon)*  
-  Semantic and structural validation of Helm charts using LLMs.
+- 🧠 **ollama**  
+  Local LLM server deployed in-cluster for offline AI inference (models like LLaMA3, Phi-3).
 
-- ⚙️ `pipeline-ai` *(coming soon)*  
-  Automatic generation of CI/CD pipelines from natural language descriptions.
+- ⚙️ **ai-pipeline-gen**  
+  Automatic generation of CI/CD pipelines (Jenkinsfiles) from natural language specifications.
+
+- 🔌 **ai-gateway**  
+  Flask-based API gateway that routes requests to various AI microservices (log analyzer, helm linter, pipeline generator).
 
 ---
 
 ## ⚙️ Local Infrastructure
 
-- Local Kubernetes via `kind`
-- Jenkins (via Deployment + PVC)
-- ArgoCD with GitOps integration
-- AI microservices deployed as Helm charts
-- Helm-based deployment support
-- Externalized `values.yaml` for GitOps workflows
-- Ollama deployed locally via Kubernetes (offline LLM inference)
-- Secrets support for OpenAI API keys
-- Fully traceable CI/CD pipeline via Jenkins + GitHub
+- **Kind** for local Kubernetes cluster  
+- **Jenkins** for CI execution  
+- **ArgoCD** for GitOps deployments  
+- **Helm** charts for each microservice  
+- **Externalized** `values.yaml` for GitOps workflows  
+- **Secrets** support for OpenAI API keys  
+- **Traceable** CI/CD pipelines via Jenkins + GitHub integration
 
 ---
 
-## 🔐 Secrets Required
+## 🔐 Required Secrets
 
-Some AI services require API keys (e.g., OpenAI) to function. These must be securely stored in the cluster.
-
-Create the required secret before deploying services:
+Store AI service credentials securely in the cluster. For example:
 
 ```bash
-kubectl create secret generic openai-api-secret   --from-literal=OPENAI_API_KEY=sk-xxx   -n devops-ai
+kubectl create secret generic openai-api-secret   --from-literal=OPENAI_API_KEY=sk-<YOUR_KEY>   -n devops-ai
 ```
-
-This secret is referenced in Helm values and injected as environment variables.
 
 ---
 
-## 🚀 Helm Chart Deployment
+## 🚀 Deployment with Helm & ArgoCD
 
-`ai-log-analyzer-devops` and `ollama` both support Helm-based deployment.  
-Charts are located under:
+### Helm Charts
+
+Charts are located under `manifests/helm-*`, for example:
 
 ```
-manifests/helm-log-analyzer/
+manifests/helm-ai-gateway/
+manifests/helm-ai-helm-linter/
+manifests/helm-ai-pipeline-gen/
 manifests/helm-ollama/
 ```
 
-To install manually:
+Install manually:
 
 ```bash
-helm install log-analyzer ./manifests/helm-log-analyzer -n devops-ai
-helm install ollama ./manifests/helm-ollama -n devops-ai
+helm install ai-helm-linter manifests/helm-ai-helm-linter --namespace devops-ai
 ```
 
-Alternatively, deployment is managed by **ArgoCD** using this structure:
+### ArgoCD GitOps
+
+ArgoCD apps live in `manifests/<service>/argocd/`. Example structure:
 
 ```
-manifests/ai-log-analyzer/argocd/
-manifests/ollama/argocd/
-├── app-log-analyzer.yaml   # ArgoCD Application for log analyzer
-├── app-ollama.yaml         # ArgoCD Application for Ollama
-├── project.yaml            # ArgoCD Project
-└── values.yaml             # Externalized Helm values
+manifests/ai-gateway/argocd/
+  ├── app-gateway.yaml
+  ├── project.yaml
+  └── values.yaml
+
+manifests/ai-helm-linter/argocd/
+  ├── app-helm-linter.yaml
+  ├── project.yaml
+  └── values.yaml
+```
+
+Sync with ArgoCD:
+
+```bash
+argocd app sync ai-helm-linter
 ```
 
 ---
 
-## 📂 Repository Structure
+## 📂 Project Structure
 
 ```
 devops-ai-lab/
-├── cluster/                   # Local cluster configuration (Kind)
+├── cluster/                   # Kind cluster configs
+├── docs/                      # Architecture diagrams, design docs
+├── images/                    # Diagrams and screenshots
 ├── manifests/
-│   ├── ai-log-analyzer/       # K8s + ArgoCD for log analyzer
-│   ├── helm-log-analyzer/     # Helm chart for log analyzer
-│   ├── ollama/                # K8s + ArgoCD for local LLM server
-│   ├── helm-ollama/           # Helm chart for Ollama
-│   └── jenkins/               # Jenkins deployment
-├── pipelines/                 # Jenkinsfiles and test pipelines
-├── docs/                      # Architecture diagrams and documentation
-└── README.md
+│   ├── ai-gateway/
+│   │   ├── argocd/            # ArgoCD app manifests
+│   │   └── kubernetes/        # Deployment & Service YAMLs
+│   ├── ai-helm-linter/
+│   │   ├── argocd/
+│   │   └── kubernetes/
+│   ├── ai-log-analyzer/
+│   ├── ai-pipeline-gen/
+│   ├── helm-ai-gateway/
+│   ├── helm-ai-helm-linter/
+│   ├── helm-ai-pipeline-gen/
+│   ├── helm-ollama/
+│   └── jenkins/
+├── pipelines/                 # Jenkinsfiles and CI tests
+├── README.md                  # This file
+├── README_ENG.md
+├── README_ES.md
+└── LICENSE
 ```
 
 ---
 
 ## 📌 Project Status
 
-- [x] Functional and deployed `ai-log-analyzer-devops`
-- [x] Helm-based deployment of `ai-log-analyzer-devops`
-- [x] Local Jenkins CI integration
-- [x] GitOps via ArgoCD
-- [x] Local LLM server via Ollama
-- [ ] AI-based Helm Chart validation (`helm-linter-ai`)
-- [ ] Pipeline generation from text (`pipeline-ai`)
+- [x] ai-log-analyzer  
+- [x] ollama (local LLM server)  
+- [x] Jenkins CI integration  
+- [x] ArgoCD GitOps  
+- [ ] ai-helm-linter  
+- [ ] ai-pipeline-gen  
+- [ ] ai-gateway (API router)  
 
 ---
 
-## 👤 Maintained by
+## 👤 Maintainer
 
 [@dorado-ai-devops](https://github.com/dorado-ai-devops)  
-DevOps engineer focused on practical AI integration within CI/CD environments.
+DevOps engineer focused on practical AI integration within CI/CD workflows.
