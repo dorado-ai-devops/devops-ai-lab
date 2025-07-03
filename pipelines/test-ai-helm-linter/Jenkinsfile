@@ -17,11 +17,15 @@ pipeline {
     stage('Lint Helm Chart con IA') {
       steps {
         script {
-          // Empaqueta el chart
           def chartPath = "./charts/example"
-          def chartTgz = sh(script: "helm package ${chartPath} --destination . | awk '{print \$NF}'", returnStdout: true).trim()
+          def chartDest = "packaged_chart"
+          sh "mkdir -p ${chartDest}"
+          def chartTgz = sh(script: "helm package ${chartPath} --destination ${chartDest} | awk '{print \$NF}'", returnStdout: true).trim()
 
-          // Construye el comando curl con multipart/form-data
+          if (!fileExists(chartTgz)) {
+            error "❌ El archivo empaquetado ${chartTgz} no se ha generado correctamente."
+          }
+
           def curlCommand = """
             curl -X POST http://helm-linter-service.devops-ai.svc.cluster.local:80/lint-chart \
               -F "chart=@${chartTgz}" \
