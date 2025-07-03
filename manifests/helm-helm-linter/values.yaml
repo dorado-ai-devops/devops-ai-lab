@@ -15,7 +15,6 @@ resources: {}
 ingress:
   enabled: false
 
-# Opcional si luego usas PVC
 persistence:
   enabled: false
   volumeName: helm-linter-data
