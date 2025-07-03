@@ -14,18 +14,13 @@ pipeline {
   }
 
   stages {
-    stage('Preparar entorno') {
+    stage('Verificar Helm') {
       steps {
-        sh '''
-          if ! command -v helm >/dev/null 2>&1; then
-            curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-          fi
-          helm version
-        '''
+        sh 'helm version || (echo "Helm no está disponible en esta imagen." && exit 1)'
       }
     }
 
-    stage('Lint Helm Chart con IA') {
+    stage('Empaquetar Helm Chart') {
       steps {
         script {
           def chartPath = "./charts/example"
@@ -37,9 +32,17 @@ pipeline {
             error "El archivo empaquetado ${chartTgz} no se ha generado correctamente."
           }
 
+          env.CHART_FILE = chartTgz
+        }
+      }
+    }
+
+    stage('Lint con IA') {
+      steps {
+        script {
           def curlCommand = """
-            curl -X POST http://helm-linter-service.devops-ai.svc.cluster.local:80/lint-chart \
-              -F "chart=@${chartTgz}" \
+            curl -s -X POST http://helm-linter-service.devops-ai.svc.cluster.local:80/lint-chart \
+              -F "chart=@${env.CHART_FILE}" \
               -F "mode=${params.MODELO_IA}"
           """
 
@@ -48,8 +51,8 @@ pipeline {
           }
 
           def response = sh(script: curlCommand, returnStdout: true).trim()
-          echo "Respuesta del Helm Linter IA (${params.MODELO_IA}):"
-          echo "${response}"
+          echo "📡 Respuesta del Helm Linter IA (${params.MODELO_IA}):"
+          echo response
         }
       }
     }
