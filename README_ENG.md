@@ -17,7 +17,7 @@ This environment runs entirely locally using Kubernetes with Kind, Jenkins, Argo
   - Audits syntax, coherence, security best practices  
   - Falls back to OpenAI when local models (Ollama) can’t handle edge cases
 
-- 🧠 **ollama**  
+- 🧠 **ai-ollama**  
   Local LLM server deployed in-cluster for offline AI inference (models like LLaMA3, Phi-3).
 
 - ⚙️ **ai-pipeline-gen**  
