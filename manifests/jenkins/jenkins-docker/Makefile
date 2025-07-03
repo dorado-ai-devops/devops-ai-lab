@@ -24,8 +24,8 @@ load:
 	kind load docker-image $(IMAGE_NAME):$(VERSION) --name $(CLUSTER_NAME)
 
 update-values:
-	sed -i "s/^ *image: .*/  image: $(REGISTRY)\/$(IMAGE_NAME)/" $(HELM_VALUES)
-	sed -i "s/^ *tag: .*/  tag: $(VERSION)/" $(HELM_VALUES)
+	sed -i "s/^ *repository: .*/  repository: jenkins-helm/" $(HELM_VALUES)
+	sed -i "s/^ *tag: .*/  tag: v0.1.2/" $(HELM_VALUES)
 
 sync:
 	argocd app sync $(ARGO_APP_NAME)
