@@ -23,7 +23,7 @@ pipeline {
           def chartTgz = sh(script: "helm package ${chartPath} --destination ${chartDest} | awk '{print \$NF}'", returnStdout: true).trim()
 
           if (!fileExists(chartTgz)) {
-            error "❌ El archivo empaquetado ${chartTgz} no se ha generado correctamente."
+            error "El archivo empaquetado ${chartTgz} no se ha generado correctamente."
           }
 
           def curlCommand = """
@@ -37,7 +37,7 @@ pipeline {
           }
 
           def response = sh(script: curlCommand, returnStdout: true).trim()
-          echo "📦 Respuesta del Helm Linter IA (${params.MODELO_IA}):"
+          echo "Respuesta del Helm Linter IA (${params.MODELO_IA}):"
           echo "${response}"
         }
       }
