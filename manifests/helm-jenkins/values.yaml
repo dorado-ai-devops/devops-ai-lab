@@ -1,6 +1,6 @@
 image:
   repository: jenkins/jenkins
-  tag: lts
+  tag: v0.1.2
   pullPolicy: IfNotPresent
 
 service:
