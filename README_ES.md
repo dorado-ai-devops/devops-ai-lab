@@ -74,12 +74,15 @@ manifests/ai-log-analyzer/argocd/
 └── values.yaml             # Valores externos Helm
 ```
 
-El despliegue de Ollama sigue la misma lógica, con sus propios manifests en:
+El despliegue de Ollama sigue la misma lógica, con sus propios manifests argocd/helm en:
 
 ```
 manifests/ollama/
 ├── kubernetes/   # YAMLs planos
 ├── argocd/       # App y valores para GitOps
+
+manifests/helm-ollama
+
 ```
 
 ---
@@ -90,10 +93,11 @@ manifests/ollama/
 devops-ai-lab/
 ├── cluster/                   # Configuración del clúster local (Kind)
 ├── manifests/                 # Manifests para todos los servicios
-│   ├── ai-log-analyzer/
-│   ├── helm-log-analyzer/
-│   ├── jenkins/
-│   ├── ollama/
+│   ├── ai-log-analyzer/       # Manifiestos ai-log-analizer argocd + kubernetes
+│   ├── helm-log-analyzer/     # Helm despliegue log-analyzer
+|   ├── helm-ollama/           # Helm despliegue ollama
+│   ├── jenkins/               # Despliegue de Jenkins
+│   ├── ollama/                # Manifiestos ollama argocd + kubernetes
 ├── pipelines/                 # Jenkinsfiles y scripts auxiliares
 ├── docs/                      # Diagramas y documentación técnica
 └── README.md
