@@ -11,7 +11,7 @@ spec:
     path: manifests/helm-ollama
     helm:
       valueFiles:
-        - ../ollama/argocd/values.yaml
+        - ../ai-ollama/argocd/values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: devops-ai
