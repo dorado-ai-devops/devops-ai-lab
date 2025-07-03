@@ -15,7 +15,7 @@ spec:
         app: jenkins
     spec:
       containers:
-        - name: jenkins
+        - name: jenkins-helm
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
