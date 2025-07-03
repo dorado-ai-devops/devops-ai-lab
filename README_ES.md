@@ -105,15 +105,12 @@ devops-ai-lab/
 ├── manifests/
 │   ├── ai-gateway/
 │   │   ├── argocd/            # Manifiestos ArgoCD
-│   │   └── kubernetes/        # YAMLs de Deployment y Service
 │   ├── ai-helm-linter/
 │   │   ├── argocd/
-│   │   └── kubernetes/
 │   ├── ai-log-analyzer/
 │   ├── ai-pipeline-gen/
 │   ├── ai-ollama/
 │   │   ├── argocd/
-│   │   └── kubernetes/
 │   ├── helm-ai-gateway/
 │   ├── helm-ai-helm-linter/
 │   ├── helm-ai-pipeline-gen/

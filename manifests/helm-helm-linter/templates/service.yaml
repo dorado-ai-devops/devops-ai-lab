@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: log-analyzer-service
+  name: helm-linter-service
   namespace: devops-ai
 spec:
   selector:
-    app: log-analyzer
+    app: helm-linter
   ports:
     - protocol: TCP
       port: {{ .Values.service.port }}
-      targetPort: 5000
+      targetPort: 5001
       nodePort: {{ .Values.service.nodePort }}
   type: {{ .Values.service.type }}
