@@ -10,8 +10,10 @@ service:
   port: 11434
 
 persistence:
-  enabled: false
+  enabled: true
   mountPath: /root/.ollama
   volumeName: ollama-data
+  existingClaim: ollama-pvc
+
 
 resources: {}

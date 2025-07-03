@@ -20,9 +20,15 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.port }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              ollama serve & 
+              sleep 5 && ollama pull mistral:latest && wait
           volumeMounts:
             - name: {{ .Values.persistence.volumeName }}
               mountPath: {{ .Values.persistence.mountPath }}
       volumes:
         - name: {{ .Values.persistence.volumeName }}
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim }}
