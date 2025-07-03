@@ -17,27 +17,19 @@ pipeline {
     stage('Lint Helm Chart con IA') {
       steps {
         script {
+          // Empaqueta el chart
           def chartPath = "./charts/example"
-          def jsonPayload = """
-          {
-            "chart_path": "${chartPath}",
-            "mode": "${params.MODELO_IA}"
-          }
-          """
+          def chartTgz = sh(script: "helm package ${chartPath} --destination . | awk '{print \$NF}'", returnStdout: true).trim()
 
+          // Construye el comando curl con multipart/form-data
           def curlCommand = """
-            curl -X POST http://helm-linter-service.devops-ai.svc.cluster.local:80/lint-chart \\
-              -H "Content-Type: application/json" \\
-              -d '${jsonPayload}'
+            curl -X POST http://helm-linter-service.devops-ai.svc.cluster.local:80/lint-chart \
+              -F "chart=@${chartTgz}" \
+              -F "mode=${params.MODELO_IA}"
           """
 
           if (params.MODELO_IA == 'openai') {
-            curlCommand = """
-              curl -X POST http://helm-linter-service.devops-ai.svc.cluster.local:80/lint-chart \\
-                -H "Content-Type: application/json" \\
-                -H "Authorization: Bearer $OPENAI_API_KEY" \\
-                -d '${jsonPayload}'
-            """
+            curlCommand += " -H \"Authorization: Bearer ${OPENAI_API_KEY}\""
           }
 
           def response = sh(script: curlCommand, returnStdout: true).trim()
