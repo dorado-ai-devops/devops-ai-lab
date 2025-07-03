@@ -109,6 +109,9 @@ devops-ai-lab/
 │   │   └── kubernetes/
 │   ├── ai-log-analyzer/
 │   ├── ai-pipeline-gen/
+│   ├── ai-ollama/
+│   │   ├── argocd/
+│   │   └── kubernetes/
 │   ├── helm-ai-gateway/
 │   ├── helm-ai-helm-linter/
 │   ├── helm-ai-pipeline-gen/

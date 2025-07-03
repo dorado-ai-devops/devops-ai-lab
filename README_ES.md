@@ -109,6 +109,9 @@ devops-ai-lab/
 │   │   └── kubernetes/
 │   ├── ai-log-analyzer/
 │   ├── ai-pipeline-gen/
+│   ├── ai-ollama/
+│   │   ├── argocd/
+│   │   └── kubernetes/
 │   ├── helm-ai-gateway/
 │   ├── helm-ai-helm-linter/
 │   ├── helm-ai-pipeline-gen/
@@ -126,7 +129,7 @@ devops-ai-lab/
 ## 📌 Project Status
 
 - [x] ai-log-analyzer  
-- [x] ollama (local LLM server)  
+- [x] ai-ollama (local LLM server)  
 - [x] Jenkins CI integration  
 - [x] ArgoCD GitOps  
 - [ ] ai-helm-linter  
