@@ -1,5 +1,5 @@
 image:
-  repository: localhost:5000/jenkins-helm
+  repository: jenkins-helm
   tag: v0.1.2
   pullPolicy: IfNotPresent
 
