@@ -1,7 +1,7 @@
 # Makefile para construir, versionar y desplegar imagen Jenkins personalizada
 
 IMAGE_NAME=jenkins-helm
-VERSION=v0.1.2
+VERSION=v0.1.3
 REGISTRY=localhost:5000
 CLUSTER_NAME=devops-ai
 HELM_VALUES=../../helm-jenkins/values.yaml

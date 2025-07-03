@@ -1,0 +1,4 @@
+ssh-agent
+git
+workflow-aggregator
+credentials
