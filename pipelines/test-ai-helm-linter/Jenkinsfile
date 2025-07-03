@@ -1,5 +1,9 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'alpine/helm:3.12.3'
+    }
+  }
 
   parameters {
     choice(
@@ -10,7 +14,7 @@ pipeline {
   }
 
   environment {
-    OPENAI_API_KEY = credentials('OPENAI_API_KEY') // Solo si usas OpenAI
+    OPENAI_API_KEY = credentials('OPENAI_API_KEY')
   }
 
   stages {
@@ -20,17 +24,23 @@ pipeline {
           def chartPath = "./charts/example"
           def chartDest = "packaged_chart"
           sh "mkdir -p ${chartDest}"
-          def chartTgz = sh(script: "helm package ${chartPath} --destination ${chartDest} | awk '{print \$NF}'", returnStdout: true).trim()
 
-          if (!fileExists(chartTgz)) {
+          def chartTgz = sh(
+            script: "helm package ${chartPath} --destination ${chartDest} | awk '{print \$NF}'",
+            returnStdout: true
+          ).trim()
+
+          if (!chartTgz || !fileExists(chartTgz)) {
             error "El archivo empaquetado ${chartTgz} no se ha generado correctamente."
           }
+
+          echo "Enviando archivo: ${chartTgz}"
 
           def curlCommand = """
             curl -X POST http://helm-linter-service.devops-ai.svc.cluster.local:80/lint-chart \
               -F "chart=@${chartTgz}" \
               -F "mode=${params.MODELO_IA}"
-          """
+          """.stripIndent().trim()
 
           if (params.MODELO_IA == 'openai') {
             curlCommand += " -H \"Authorization: Bearer ${OPENAI_API_KEY}\""
