@@ -1,6 +1,5 @@
 apiVersion: v2
-name: helm-log-analyzer
-description: Helm chart for AI Log Analyzer microservice
-type: application
-version: 0.1.5
-appVersion: "1.0"
+name: helm-linter
+description: Linter de Helm Charts potenciado por IA (Flask + Ollama/OpenAI)
+version: 0.1.0
+appVersion: "0.1.0"
