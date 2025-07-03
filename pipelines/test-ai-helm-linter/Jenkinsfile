@@ -20,19 +20,35 @@ pipeline {
       }
     }
 
-    stage('Empaquetar Helm Chart') {
+    stage('Descargar y empaquetar Helm Chart') {
       steps {
         script {
-          def chartPath = "./charts/example"
+          def repoUrl = "git@github.com:dorado-ai-devops/devops-ai-lab.git"
+          def repoDir = "devops-ai-lab"
+          def chartSubpath = "manifests/helm-log-analyzer"
           def chartDest = "packaged_chart"
-          sh "mkdir -p ${chartDest}"
-          def chartTgz = sh(script: "helm package ${chartPath} --destination ${chartDest} | awk '{print \$NF}'", returnStdout: true).trim()
 
-          if (!fileExists(chartTgz)) {
-            error "El archivo empaquetado ${chartTgz} no se ha generado correctamente."
+          sshagent(['doradodaniaissh']) {
+            sh """
+              if [ ! -d "${repoDir}" ]; then
+                git clone ${repoUrl}
+              fi
+            """
           }
 
-          env.CHART_FILE = chartTgz
+          sh "mkdir -p ${chartDest}"
+          def chartTgz = sh(
+            script: "helm package ${repoDir}/${chartSubpath} --destination ${chartDest} | awk '{print \$NF}'",
+            returnStdout: true
+          ).trim()
+
+          echo "Chart empaquetado en: ${chartTgz}"
+
+          if (!fileExists(chartTgz)) {
+            error "No se generó el paquete Helm correctamente: ${chartTgz}"
+          }
+
+          writeFile file: 'chart-path.txt', text: chartTgz
         }
       }
     }
@@ -40,12 +56,17 @@ pipeline {
     stage('Lint con IA') {
       steps {
         script {
+          def chartTgz = readFile('chart-path.txt').trim()
+
+          if (!fileExists(chartTgz)) {
+            error "Archivo de chart no encontrado: ${chartTgz}"
+          }
+
           def curlCommand = """
             curl -s -X POST http://helm-linter-service.devops-ai.svc.cluster.local:80/lint-chart \
-              -F "chart=@${env.CHART_FILE}" \
+              -F "chart=@${chartTgz}" \
               -F "mode=${params.MODELO_IA}"
           """
-
           if (params.MODELO_IA == 'openai') {
             curlCommand += " -H \"Authorization: Bearer ${OPENAI_API_KEY}\""
           }
