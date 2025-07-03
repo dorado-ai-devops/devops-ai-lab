@@ -62,16 +62,18 @@ pipeline {
             error "Archivo de chart no encontrado: ${chartTgz}"
           }
 
-          def curlCommand = """
-            curl -s -X POST http://helm-linter-service.devops-ai.svc.cluster.local:80/lint-chart \
-              -F "chart=@${chartTgz}" \
-              -F "mode=${params.MODELO_IA}"
-          """
-          if (params.MODELO_IA == 'openai') {
-            curlCommand += " -H \"Authorization: Bearer ${OPENAI_API_KEY}\""
-          }
+          def authHeader = (params.MODELO_IA == 'openai') ? "-H 'Authorization: Bearer ${OPENAI_API_KEY}'" : ""
 
-          def response = sh(script: curlCommand, returnStdout: true).trim()
+          def response = sh(
+            script: """
+              curl -s -X POST http://helm-linter-service.devops-ai.svc.cluster.local:80/lint-chart \
+                -F chart=@${chartTgz} \
+                -F mode=${params.MODELO_IA} \
+                ${authHeader}
+            """,
+            returnStdout: true
+          ).trim()
+
           echo "📡 Respuesta del Helm Linter IA (${params.MODELO_IA}):"
           echo response
         }
