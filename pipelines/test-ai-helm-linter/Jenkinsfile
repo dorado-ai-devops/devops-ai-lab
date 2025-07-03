@@ -78,4 +78,11 @@ pipeline {
       }
     }
   }
+
+  post {
+    always {
+      echo 'Limpiando artefactos temporales...'
+      sh 'rm -rf packaged_chart chart-path.txt'
+    }
+  }
 }
