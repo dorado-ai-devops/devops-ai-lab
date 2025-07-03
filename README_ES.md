@@ -115,7 +115,7 @@ devops-ai-lab/
 │   ├── helm-ai-helm-linter/
 │   ├── helm-ai-pipeline-gen/
 │   ├── helm-ollama/
-│   └── jenkins/
+│   └── jenkins/               # Despliegue de jenkins
 ├── pipelines/                 # Jenkinsfiles y tests de CI
 ├── README.md                  # Este archivo
 ├── README_ENG.md
@@ -140,4 +140,4 @@ devops-ai-lab/
 ## 👤 Mantenedor
 
 [@dorado-ai-devops](https://github.com/dorado-ai-devops)  
-Ingeniero DevOps enfocado en integración práctica de IA en flujos CI/CD.
+Ingeniero DevOps enfocado en integración práctica de IA en flujos CI/CD
