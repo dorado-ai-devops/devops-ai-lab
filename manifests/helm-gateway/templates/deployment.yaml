@@ -34,5 +34,6 @@ spec:
               mountPath: /app/outputs
       volumes:
         - name: outputs-volume
-          persistentVolumeClaim:
-            claimName: nfs-pvc
+          hostPath:
+            path: /mnt/data/gateway
+            type: DirectoryOrCreate
