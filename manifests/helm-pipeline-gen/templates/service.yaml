@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pipeline-gen-service
+  namespace: devops-ai
+spec:
+  selector:
+    app: pipeline-gen
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: 5003
+      nodePort: {{ .Values.service.nodePort }}
+  type: {{ .Values.service.type }}
