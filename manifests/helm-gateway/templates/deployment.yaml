@@ -6,6 +6,7 @@ metadata:
   labels:
     app: ai-gateway
 spec:
+  revisionHistoryLimit: 3
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
@@ -28,3 +29,10 @@ spec:
             requests:
               cpu: {{ .Values.resources.requests.cpu }}
               memory: {{ .Values.resources.requests.memory }}
+          volumeMounts:
+            - name: outputs-volume
+              mountPath: /app/outputs
+      volumes:
+        - name: outputs-volume
+          persistentVolumeClaim:
+            claimName: ai-gateway-outputs-pvc

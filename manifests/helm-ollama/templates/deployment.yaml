@@ -5,6 +5,7 @@ metadata:
   labels:
     app: ollama
 spec:
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:

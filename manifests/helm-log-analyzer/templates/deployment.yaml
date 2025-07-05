@@ -6,6 +6,7 @@ metadata:
   labels:
     app: log-analyzer
 spec:
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:

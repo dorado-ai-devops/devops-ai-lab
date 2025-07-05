@@ -17,3 +17,4 @@ persistence:
 
 
 resources: {}
+revisionHistoryLimit: 3
