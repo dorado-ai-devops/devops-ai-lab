@@ -13,6 +13,8 @@ spec:
       labels:
         app: nfs-server
     spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: nfs-server
           image: itsthenetwork/nfs-server-alpine:12
@@ -37,5 +39,6 @@ spec:
             periodSeconds: 10
       volumes:
         - name: nfs-data
-          persistentVolumeClaim:
-            claimName: nfs-pvc
+          hostPath:
+            path: /mnt/data/nfs  # ← Ruta en tu host real
+            type: DirectoryOrCreate
