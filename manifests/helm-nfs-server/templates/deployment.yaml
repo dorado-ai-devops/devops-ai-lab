@@ -13,6 +13,8 @@ spec:
       labels:
         app: nfs-server
     spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: nfs-server
           image: itsthenetwork/nfs-server-alpine:12
@@ -36,6 +38,5 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 10
       volumes:
-        volumes:
         - name: nfs-data
           emptyDir: {}
