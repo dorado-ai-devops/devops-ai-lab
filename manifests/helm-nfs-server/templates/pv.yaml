@@ -7,7 +7,7 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
   nfs:
     path: /exports
     server: nfs-server.devops-ai.svc.cluster.local
-  persistentVolumeReclaimPolicy: Retain
