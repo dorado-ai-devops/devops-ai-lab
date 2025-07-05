@@ -27,6 +27,14 @@ spec:
           volumeMounts:
             - name: nfs-data
               mountPath: /exports
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - "rpcinfo -u localhost nfs || exit 1"
+            initialDelaySeconds: 5
+            periodSeconds: 10
       volumes:
         - name: nfs-data
           persistentVolumeClaim:
