@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+  repository: localhost:5000/ai-mcp-server
+  tag: v0.1.0
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8001
+
+volumeMount:
+  mountPath: /mnt/data/mcp
+  hostPath: /mnt/data/mcp

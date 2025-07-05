@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ai-mcp-server
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/dorado-ai-devops/devops-ai-lab
+    targetRevision: HEAD
+    path: manifests/helm-mcp
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: devops-ai
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
