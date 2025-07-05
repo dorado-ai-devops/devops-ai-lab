@@ -9,5 +9,5 @@ spec:
   resources:
     requests:
       storage: 500Mi
-  volumeName: nfs-pv  
-  storageClassName: "" 
+  volumeName: nfs-pv
+  storageClassName: ""
