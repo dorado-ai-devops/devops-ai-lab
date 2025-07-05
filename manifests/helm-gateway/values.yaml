@@ -20,6 +20,5 @@ resources:
 persistence:
   enabled: true
   size: 1Gi
-  accessMode: ReadWriteMany
-
+  accessMode: ReadWriteOnce
 revisionHistoryLimit: 3
