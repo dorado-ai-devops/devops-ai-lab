@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+  repository: pipeline-gen
+  tag: v0.1.0
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30974  # Asegúrate que esté libre
+
+ollama:
+  baseUrl: "http://ollama.devops-ai.svc.cluster.local:11434"
