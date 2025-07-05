@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ai-gateway
+  name: nfs-server
   namespace: argocd
 spec:
   project: devops-ai-project
