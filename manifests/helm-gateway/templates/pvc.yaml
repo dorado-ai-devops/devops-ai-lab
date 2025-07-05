@@ -5,8 +5,7 @@ metadata:
   namespace: devops-ai
 spec:
   accessModes:
-    - ReadWriteMany
-  storageClassName: longhorn
+    - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
