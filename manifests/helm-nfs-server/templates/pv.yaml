@@ -10,4 +10,4 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     path: /exports
-    server: nfs-server.devops-ai.svc.cluster.local
+    server: 172.18.0.1 
