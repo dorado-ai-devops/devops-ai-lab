@@ -16,3 +16,8 @@ resources:
   requests:
     cpu: 200m
     memory: 256Mi
+    
+persistence:
+  enabled: true
+  size: 1Gi
+  accessMode: ReadWriteMany
