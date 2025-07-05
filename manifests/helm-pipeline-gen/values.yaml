@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: pipeline-gen
+  repository: ai-pipeline-gen
   tag: v0.1.0
   pullPolicy: IfNotPresent
 
