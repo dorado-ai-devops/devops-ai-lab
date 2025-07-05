@@ -16,11 +16,14 @@ spec:
         app: pipeline-gen
     spec:
       containers:
-        - name: pipeline-gen
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - containerPort: 5003
-          env:
-            - name: OLLAMA_BASE_URL
-              value: {{ .Values.ollama.baseUrl | quote }}
+      - name: pipeline-gen
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - containerPort: 5003
+        env:
+        - name: OLLAMA_BASE_URL
+          value: {{ .Values.ollama.baseUrl | quote }}
+        envFrom:
+        - secretRef:
+            name: openai-secret
