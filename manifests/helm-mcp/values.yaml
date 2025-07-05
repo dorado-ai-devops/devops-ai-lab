@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: localhost:5000/ai-mcp-server
+  repository: ai-mcp-server
   tag: v0.1.0
   pullPolicy: IfNotPresent
 
