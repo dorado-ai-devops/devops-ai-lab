@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-mcp-server
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: ai-mcp-server
+  template:
+    metadata:
+      labels:
+        app: ai-mcp-server
+    spec:
+      containers:
+        - name: ai-mcp-server
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8001
+          volumeMounts:
+            - name: mcp-data
+              mountPath: {{ .Values.volumeMount.mountPath }}
+      volumes:
+        - name: mcp-data
+          hostPath:
+            path: {{ .Values.volumeMount.hostPath }}
+            type: DirectoryOrCreate
