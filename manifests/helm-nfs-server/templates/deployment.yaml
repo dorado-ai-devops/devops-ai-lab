@@ -37,5 +37,4 @@ spec:
             periodSeconds: 10
       volumes:
         - name: nfs-data
-          persistentVolumeClaim:
-            claimName: nfs-pvc
+          emptyDir: {}
