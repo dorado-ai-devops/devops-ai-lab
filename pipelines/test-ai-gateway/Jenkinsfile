@@ -39,11 +39,12 @@ pipeline {
           }
 
           sh "mkdir -p ${chartDest}"
-          def chartTgz = sh(
+          def chartTgzName = sh(
             script: "helm package ${repoDir}/${chartSubpath} --destination ${chartDest} | awk '{print \$NF}'",
             returnStdout: true
           ).trim()
 
+          def chartTgz = "${chartDest}/${chartTgzName}"
           echo "✅ Chart empaquetado en: ${chartTgz}"
 
           if (!fileExists(chartTgz)) {
@@ -111,6 +112,7 @@ pipeline {
               curl -s -X POST $GATEWAY_URL/lint-chart \
                 -F chart=@${chartTgz} \
                 -F mode=${params.MODELO_IA} \
+                -F chart_name="helm-log-analyzer" \
                 ${authHeader}
             """,
             returnStdout: true
