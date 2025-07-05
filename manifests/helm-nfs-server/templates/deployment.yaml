@@ -40,5 +40,5 @@ spec:
       volumes:
         - name: nfs-data
           hostPath:
-            path: /mnt/data/nfs  # ← Ruta en tu host real
+            path: /srv/nfs  # ← Ruta en tu host real
             type: DirectoryOrCreate
