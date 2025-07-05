@@ -1,11 +1,13 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: ai-gateway-outputs-pvc
+  name: nfs-pvc
   namespace: devops-ai
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 1Gi
+      storage: 500Mi
+  volumeName: nfs-pv  
+  storageClassName: "" 

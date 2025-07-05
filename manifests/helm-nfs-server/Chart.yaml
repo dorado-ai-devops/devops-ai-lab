@@ -1,0 +1,6 @@
+apiVersion: v2
+name: nfs-server
+description: nfs-server for local ai-gateway outputs and streamlit rwm support
+type: application
+version: 0.1.0
+appVersion: "latest"

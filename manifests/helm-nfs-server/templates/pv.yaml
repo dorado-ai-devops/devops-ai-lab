@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: /exports
+    server: nfs-server.devops-ai.svc.cluster.local
+  persistentVolumeReclaimPolicy: Retain
