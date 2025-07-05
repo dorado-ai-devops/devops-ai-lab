@@ -1,0 +1,131 @@
+pipeline {
+  agent any
+
+  environment {
+    OPENAI_API_KEY = credentials('OPENAI_API_KEY')
+    TIMESTAMP = "${new Date().format('yyyyMMddHHmmss')}"
+    GATEWAY_URL = "http://ai-gateway.devops-ai.svc.cluster.local:5002"
+  }
+
+  parameters {
+    choice(
+      name: 'MODELO_IA',
+      choices: ['openai', 'ollama'],
+      description: 'Selecciona el motor de IA'
+    )
+  }
+
+  stages {
+    stage('Verificar Helm') {
+      steps {
+        sh 'helm version || (echo "Helm no está disponible en esta imagen." && exit 1)'
+      }
+    }
+
+    stage('Descargar y empaquetar Helm Chart') {
+      steps {
+        script {
+          def repoUrl = "git@github.com:dorado-ai-devops/devops-ai-lab.git"
+          def repoDir = "devops-ai-lab"
+          def chartSubpath = "manifests/helm-log-analyzer"
+          def chartDest = "packaged_chart"
+
+          sshagent(['doradodaniaissh']) {
+            sh """
+              if [ ! -d "${repoDir}" ]; then
+                git clone ${repoUrl}
+              fi
+            """
+          }
+
+          sh "mkdir -p ${chartDest}"
+          def chartTgz = sh(
+            script: "helm package ${repoDir}/${chartSubpath} --destination ${chartDest} | awk '{print \$NF}'",
+            returnStdout: true
+          ).trim()
+
+          echo "✅ Chart empaquetado en: ${chartTgz}"
+
+          if (!fileExists(chartTgz)) {
+            error "❌ No se generó el paquete Helm correctamente"
+          }
+
+          writeFile file: 'chart-path.txt', text: chartTgz
+        }
+      }
+    }
+
+    stage('Test generate-pipeline') {
+      steps {
+        script {
+          def base = "pipeline_${env.TIMESTAMP}"
+          def promptPath = "/app/outputs/pipelines/${base}.prompt"
+          def responsePath = "/app/outputs/pipelines/${base}.jenkinsfile"
+
+          def payload = """
+          {
+            "description": "Pipeline básico con test y despliegue",
+            "mode": "${params.MODELO_IA}",
+            "prompt_path": "${promptPath}",
+            "response_path": "${responsePath}"
+          }
+          """
+
+          def response = sh(script: "curl -s -X POST $GATEWAY_URL/generate-pipeline -H 'Content-Type: application/json' -d '${payload}'", returnStdout: true).trim()
+          echo "🧪 Respuesta generate-pipeline:\n${response}"
+        }
+      }
+    }
+
+    stage('Test analyze-log') {
+      steps {
+        script {
+          def base = "log_${env.TIMESTAMP}"
+          def promptPath = "/app/outputs/logs/${base}.log"
+          def responsePath = "/app/outputs/logs/${base}.analysis"
+          def logData = "ERROR: build failed at stage 'test'\nStacktrace..."
+
+          def payload = """
+          {
+            "log": "${logData}",
+            "mode": "${params.MODELO_IA}",
+            "prompt_path": "${promptPath}",
+            "response_path": "${responsePath}"
+          }
+          """
+
+          def response = sh(script: "curl -s -X POST $GATEWAY_URL/analyze-log -H 'Content-Type: application/json' -d '${payload}'", returnStdout: true).trim()
+          echo "🧪 Respuesta analyze-log:\n${response}"
+        }
+      }
+    }
+
+    stage('Test lint-chart') {
+      steps {
+        script {
+          def chartTgz = readFile('chart-path.txt').trim()
+          def authHeader = (params.MODELO_IA == 'openai') ? "-H 'Authorization: Bearer ${OPENAI_API_KEY}'" : ""
+
+          def response = sh(
+            script: """
+              curl -s -X POST $GATEWAY_URL/lint-chart \
+                -F chart=@${chartTgz} \
+                -F mode=${params.MODELO_IA} \
+                ${authHeader}
+            """,
+            returnStdout: true
+          ).trim()
+
+          echo "🧪 Respuesta lint-chart:\n${response}"
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      echo '🧹 Limpiando artefactos temporales...'
+      sh 'rm -rf devops-ai-lab packaged_chart chart-path.txt'
+    }
+  }
+}
