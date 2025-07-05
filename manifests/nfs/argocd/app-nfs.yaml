@@ -12,7 +12,7 @@ spec:
     helm:
       values: |
         nfs:
-          server: host.docker.internal
+          server: 172.29.208.1
           path: /srv/nfsdata
         storageClass:
           name: nfs
