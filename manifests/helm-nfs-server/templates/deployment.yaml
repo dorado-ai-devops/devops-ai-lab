@@ -20,12 +20,19 @@ spec:
           image: itsthenetwork/nfs-server-alpine:12
           securityContext:
             privileged: true
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -p /exports && chmod 777 /exports
+              echo "/exports *(rw,sync,no_subtree_check,no_root_squash)" > /etc/exports
+              rpcbind
+              rpc.nfsd 8
+              exportfs -rv
+              exec tail -f /dev/null
           ports:
             - containerPort: 2049
             - containerPort: 111
-          env:
-            - name: SHARED_DIRECTORY
-              value: /exports
           volumeMounts:
             - name: nfs-data
               mountPath: /exports
