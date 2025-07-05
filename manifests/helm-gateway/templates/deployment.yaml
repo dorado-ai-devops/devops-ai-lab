@@ -6,7 +6,7 @@ metadata:
   labels:
     app: ai-gateway
 spec:
-  revisionHistoryLimit: 3
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
@@ -35,4 +35,4 @@ spec:
       volumes:
         - name: outputs-volume
           persistentVolumeClaim:
-            claimName: ai-gateway-outputs-pvc
+            claimName: nfs-pvc
