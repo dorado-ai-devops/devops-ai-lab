@@ -13,8 +13,6 @@ spec:
       labels:
         app: nfs-server
     spec:
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: nfs-server
           image: itsthenetwork/nfs-server-alpine:12
