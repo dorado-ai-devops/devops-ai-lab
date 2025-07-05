@@ -38,7 +38,6 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 10
       volumes:
+        volumes:
         - name: nfs-data
-          hostPath:
-            path: /srv/nfs  # ← Ruta en tu host real
-            type: DirectoryOrCreate
+          emptyDir: {}
