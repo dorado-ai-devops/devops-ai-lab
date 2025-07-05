@@ -29,14 +29,6 @@ spec:
           volumeMounts:
             - name: nfs-data
               mountPath: /exports
-          readinessProbe:
-            exec:
-              command:
-                - sh
-                - -c
-                - "rpcinfo -p | grep -q nfs || exit 1"
-            initialDelaySeconds: 5
-            periodSeconds: 10
       volumes:
         - name: nfs-data
           emptyDir: {}
