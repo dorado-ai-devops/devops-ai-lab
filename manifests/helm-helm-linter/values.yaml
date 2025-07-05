@@ -22,3 +22,5 @@ persistence:
 
 ollama:
   baseUrl: http://ollama.devops-ai.svc.cluster.local:11434
+
+revisionHistoryLimit: 3

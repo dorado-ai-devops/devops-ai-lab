@@ -6,6 +6,7 @@ metadata:
   labels:
     app: ai-gateway
 spec:
+  revisionHistoryLimit: 3
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
