@@ -45,10 +45,10 @@ pipeline {
             returnStdout: true
           ).trim()
 
-          echo "✅ Chart empaquetado en: ${chartTgz}"
+          echo "Chart empaquetado en: ${chartTgz}"
 
           if (!fileExists(chartTgz)) {
-            error "❌ No se generó el paquete Helm correctamente"
+            error "No se generó el paquete Helm correctamente"
           }
 
           writeFile file: 'chart-path.txt', text: chartTgz
@@ -63,17 +63,15 @@ pipeline {
           def promptPath = "/app/outputs/pipelines/${base}.prompt"
           def responsePath = "/app/outputs/pipelines/${base}.jenkinsfile"
 
-          def payload = """
-          {
+          def payload = """{
             "description": "Pipeline básico con test y despliegue",
             "mode": "${params.MODELO_IA}",
             "prompt_path": "${promptPath}",
             "response_path": "${responsePath}"
-          }
-          """
+          }"""
 
           def response = sh(script: "curl -s -X POST $GATEWAY_URL/generate-pipeline -H 'Content-Type: application/json' -d '${payload}'", returnStdout: true).trim()
-          echo "🧪 Respuesta generate-pipeline:\n${response}"
+          echo "Respuesta generate-pipeline:\n${response}"
         }
       }
     }
@@ -84,19 +82,17 @@ pipeline {
           def base = "log_${env.TIMESTAMP}"
           def promptPath = "/app/outputs/logs/${base}.log"
           def responsePath = "/app/outputs/logs/${base}.analysis"
-          def logData = "ERROR: build failed at stage 'test'\nStacktrace..."
+          def logData = "ERROR: build failed at stage 'test'\\nStacktrace..."
 
-          def payload = """
-          {
+          def payload = """{
             "log": "${logData}",
             "mode": "${params.MODELO_IA}",
             "prompt_path": "${promptPath}",
             "response_path": "${responsePath}"
-          }
-          """
+          }"""
 
           def response = sh(script: "curl -s -X POST $GATEWAY_URL/analyze-log -H 'Content-Type: application/json' -d '${payload}'", returnStdout: true).trim()
-          echo "🧪 Respuesta analyze-log:\n${response}"
+          echo "Respuesta analyze-log:\n${response}"
         }
       }
     }
@@ -117,7 +113,7 @@ pipeline {
             returnStdout: true
           ).trim()
 
-          echo "🧪 Respuesta lint-chart:\n${response}"
+          echo "Respuesta lint-chart:\n${response}"
         }
       }
     }
@@ -125,7 +121,7 @@ pipeline {
 
   post {
     always {
-      echo '🧹 Limpiando artefactos temporales...'
+      echo 'Limpiando artefactos temporales...'
       sh 'rm -rf devops-ai-lab packaged_chart chart-path.txt'
     }
   }
