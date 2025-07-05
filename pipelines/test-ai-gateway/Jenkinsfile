@@ -4,7 +4,7 @@ pipeline {
   environment {
     OPENAI_API_KEY = credentials('OPENAI_API_KEY')
     TIMESTAMP = "${new Date().format('yyyyMMddHHmmss')}"
-    GATEWAY_URL = "http://ai-gateway.devops-ai.svc.cluster.local:5002"
+    GATEWAY_URL = "http://ai-gateway-service.devops-ai.svc.cluster.local:5002"
   }
 
   parameters {
