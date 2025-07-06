@@ -19,21 +19,13 @@ spec:
           ports:
             - containerPort: 8501
           env:
-            - name: GATEWAY_DIR
-              value: /mnt/data/gateway
-            - name: MCP_DIR
-              value: /mnt/data/mcp
+            - name: BASE_DIR
+              value: /mnt/data
           volumeMounts:
-            - name: gateway-volume
-              mountPath: /mnt/data/gateway
-            - name: mcp-volume
-              mountPath: /mnt/data/mcp
+            - name: data-volume
+              mountPath: /mnt/data
       volumes:
-        - name: gateway-volume
+        - name: data-volume
           hostPath:
-            path: {{ .Values.volumes.gateway.hostPath }}
-            type: DirectoryOrCreate
-        - name: mcp-volume
-          hostPath:
-            path: {{ .Values.volumes.mcp.hostPath }}
+            path: {{ .Values.volumes.data.hostPath }}
             type: DirectoryOrCreate

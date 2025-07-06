@@ -18,7 +18,5 @@ tolerations: []
 affinity: []
 
 volumes:
-  gateway:
-    hostPath: /mnt/data/gateway
-  mcp:
-    hostPath: /mnt/data/mcp
+  data:
+    hostPath: /mnt/data
