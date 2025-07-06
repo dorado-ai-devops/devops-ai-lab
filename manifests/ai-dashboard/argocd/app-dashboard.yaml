@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ai-dashboard
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:dorado-ai-devops/devops-ai-lab.git
+    targetRevision: HEAD
+    path: manifests/helm-dashboard
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: devops-ai
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
