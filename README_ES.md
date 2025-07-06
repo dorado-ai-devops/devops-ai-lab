@@ -27,7 +27,7 @@ Este entorno se ejecuta íntegramente de forma local usando Kubernetes con Kind,
   Gateway API basado en Flask que enruta peticiones a varios microservicios de IA (log analyzer, helm linter, pipeline generator).
 
 - 🧩 **ai-mcp-server**  
-  Servicio FastAPI para trazabilidad simbólica, recibe mensajes desde Jenkins y los convierte en mensajes MCP auditablemente visualizables.
+  Servicio FastAPI para trazabilidad, recibe mensajes desde Jenkins y los convierte en mensajes MCP auditablemente visualizables.
 
 - 📊 **streamlit-dashboard**  
   Interfaz Streamlit para mostrar prompts/respuestas/MCP en modo auditable, con filtros y SQLite para trazabilidad.

@@ -27,7 +27,7 @@ This environment runs entirely locally using Kubernetes with Kind, Jenkins, Argo
   Flask-based API gateway that routes requests to various AI microservices (log analyzer, helm linter, pipeline generator).
 
 - 🧩 **ai-mcp-server**  
-  FastAPI service for symbolic traceability. Receives messages from Jenkins and transforms them into auditable MCP messages.
+  FastAPI service for traceability. Receives messages from Jenkins and transforms them into auditable MCP messages.
 
 - 📊 **streamlit-dashboard**  
   Streamlit interface to display prompts/responses/MCP data in an auditable way, with filters and SQLite-based traceability.
