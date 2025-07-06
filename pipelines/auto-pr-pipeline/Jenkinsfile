@@ -1,0 +1,63 @@
+pipeline {
+  agent any
+
+  parameters {
+    string(name: 'GITHUB_USER', defaultValue: 'dorado-ai-devops', description: 'GitHub user or org')
+    string(name: 'GITHUB_REPO', description: 'Nombre del repositorio (sin .git)')
+  }
+
+  environment {
+    GITHUB_TOKEN = credentials('githupushtoken')         // Secret text en Jenkins
+  }
+
+  stages {
+    stage('Clonar develop') {
+      steps {
+        sshagent(['doradodaniaissh']) {
+          sh '''
+            rm -rf ${GITHUB_REPO}
+            git clone -b develop git@github.com:${GITHUB_USER}/${GITHUB_REPO}.git
+          '''
+        }
+      }
+    }
+
+    stage('Crear rama y pushear') {
+      steps {
+        dir("${params.GITHUB_REPO}") {
+          sshagent(['doradodaniaissh']) {
+            sh '''
+              git checkout -b auto-merge || git checkout auto-merge
+              git push -f origin auto-merge
+            '''
+          }
+        }
+      }
+    }
+
+    stage('Crear Pull Request') {
+      steps {
+        sh """
+          curl -s -X POST -H "Authorization: token ${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -d '{
+              "title": "Auto PR: develop → main",
+              "head": "auto-merge",
+              "base": "main",
+              "body": "Este PR fue generado automáticamente desde Jenkins"
+            }' \
+            https://api.github.com/repos/${params.GITHUB_USER}/${params.GITHUB_REPO}/pulls
+        """
+      }
+    }
+  }
+
+  post {
+    success {
+      echo "PR creado correctamente desde 'develop' hacia 'main'."
+    }
+    failure {
+      echo "Error durante la creación del PR."
+    }
+  }
+}
