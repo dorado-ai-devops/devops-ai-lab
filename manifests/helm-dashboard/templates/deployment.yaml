@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-streamlit-dashboard
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: ai-streamlit-dashboard
+  template:
+    metadata:
+      labels:
+        app: ai-streamlit-dashboard
+    spec:
+      containers:
+        - name: dashboard
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8501
+          env:
+            - name: GATEWAY_DIR
+              value: /mnt/data/gateway
+            - name: MCP_DIR
+              value: /mnt/data/mcp
+          volumeMounts:
+            - name: gateway-volume
+              mountPath: /mnt/data/gateway
+            - name: mcp-volume
+              mountPath: /mnt/data/mcp
+      volumes:
+        - name: gateway-volume
+          hostPath:
+            path: {{ .Values.volumes.gateway.hostPath }}
+            type: DirectoryOrCreate
+        - name: mcp-volume
+          hostPath:
+            path: {{ .Values.volumes.mcp.hostPath }}
+            type: DirectoryOrCreate

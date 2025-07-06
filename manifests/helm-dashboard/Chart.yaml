@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ai-streamlit-dashboard
+description: Helm chart for the AI Streamlit Dashboard
+type: application
+version: 0.1.0
+appVersion: "v0.1.0"
