@@ -26,6 +26,12 @@ Este entorno se ejecuta íntegramente de forma local usando Kubernetes con Kind,
 - 🔌 **ai-gateway**  
   Gateway API basado en Flask que enruta peticiones a varios microservicios de IA (log analyzer, helm linter, pipeline generator).
 
+- 🧩 **ai-mcp-server**  
+  Servicio FastAPI para trazabilidad simbólica, recibe mensajes desde Jenkins y los convierte en mensajes MCP auditablemente visualizables.
+
+- 📊 **streamlit-dashboard**  
+  Interfaz Streamlit para mostrar prompts/respuestas/MCP en modo auditable, con filtros y SQLite para trazabilidad.
+
 ---
 
 ## ⚙️ Infraestructura local
@@ -62,6 +68,7 @@ Los charts se encuentran bajo `manifests/helm-*`, por ejemplo:
 manifests/helm-ai-gateway/
 manifests/helm-ai-helm-linter/
 manifests/helm-ai-pipeline-gen/
+manifests/helm-ai-mcp/
 manifests/helm-ollama/
 ```
 
@@ -78,11 +85,6 @@ Las apps de ArgoCD están en `manifests/<servicio>/argocd/`. Estructura de ejemp
 ```
 manifests/ai-gateway/argocd/
   ├── app-gateway.yaml
-  ├── project.yaml
-  └── values.yaml
-
-manifests/ai-helm-linter/argocd/
-  ├── app-helm-linter.yaml
   ├── project.yaml
   └── values.yaml
 ```
@@ -104,19 +106,17 @@ devops-ai-lab/
 ├── images/                    # Diagramas e imágenes
 ├── manifests/
 │   ├── ai-gateway/
-│   │   ├── argocd/            # Manifiestos ArgoCD
 │   ├── ai-helm-linter/
-│   │   ├── argocd/
 │   ├── ai-log-analyzer/
-│   ├── ai-pipeline-gen/
+│   ├── ai-mcp-server/
 │   ├── ai-ollama/
-│   │   ├── argocd/
-│   ├── helm-ai-gateway/
-│   ├── helm-ai-helm-linter/
-│   ├── helm-ai-pipeline-gen/
-│   ├── helm-ollama/
-│   └── jenkins/               # Despliegue de jenkins
-├── pipelines/                 # Jenkinsfiles y tests de CI
+│   ├── ai-pipeline-gen/
+│   ├── helm-*/               # Charts de Helm por servicio
+│   └── jenkins/               # Jenkins charts y config
+├── pipelines/                 # Jenkinsfiles por microservicio
+│   ├── test-ai-gateway/
+│   ├── test-ai-helm-linter/
+│   └── test-ai-log-analyzer/
 ├── README.md                  # Este archivo
 ├── README_ENG.md
 ├── README_ES.md
@@ -125,15 +125,30 @@ devops-ai-lab/
 
 ---
 
+## 🧪 Pipelines incluidos
+
+Cada microservicio tiene su Jenkinsfile de test, que llama al `ai-gateway` con inputs reales y valida el resultado:
+
+- `test-ai-gateway/Jenkinsfile`: smoke test de gateway y latencia
+- `test-ai-helm-linter/Jenkinsfile`: linteo básico de Helm Chart ejemplo
+- `test-ai-log-analyzer/Jenkinsfile`: análisis de log fallido (build error) y diagnóstico
+
+Todos los tests se pueden extender fácilmente con inputs reales.
+
+---
+
 ## 📌 Estado del proyecto
 
 - [x] ai-log-analyzer  
-- [x] ollama (servidor LLM local)  
-- [x] Integración CI con Jenkins  
-- [x] GitOps con ArgoCD  
-- [ ] ai-helm-linter  
-- [ ] ai-pipeline-gen  
-- [ ] ai-gateway (enrutador API)  
+- [x] ai-helm-linter  
+- [x] ai-pipeline-gen  
+- [x] ai-gateway
+- [x] ai-mcp-server   
+- [x] ai-ollama  
+- [x] helm + ArgoCD por microservicio  
+- [x] integración Jenkins + LLM  
+- [ ] streamlit-dashboard (en desarrollo)  
+
 
 ---
 
