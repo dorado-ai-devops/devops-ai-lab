@@ -1,0 +1,24 @@
+replicaCount: 1
+
+image:
+  repository: ai-streamlit-dashboard
+  tag: v0.1.0
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8501
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: []
+
+volumes:
+  gateway:
+    hostPath: /mnt/data/gateway
+  mcp:
+    hostPath: /mnt/data/mcp
