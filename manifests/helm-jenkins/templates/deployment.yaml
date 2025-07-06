@@ -18,6 +18,9 @@ spec:
         - name: jenkins-helm
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: TZ
+              value: Europe/Madrid
           ports:
             - containerPort: 8080
             - containerPort: 50000
