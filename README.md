@@ -30,6 +30,7 @@ Includes modular deployment with Helm + ArgoCD (GitOps) and support for both Ope
 - 🇬🇧 [Documentation in English](./README_ENG.md)  
   _Comprehensive guide on architecture, services included, and how to run the entire setup locally._
 
+
 ---
 
 📌 En este índice se añadirá próximamente un esquema visual del entorno.  
