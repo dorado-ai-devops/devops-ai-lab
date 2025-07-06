@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: ai-streamlit-dashboard
-  tag: v0.4.3
+  tag: v0.4.4
   pullPolicy: IfNotPresent
 
 service:
