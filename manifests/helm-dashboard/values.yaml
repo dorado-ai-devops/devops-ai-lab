@@ -20,3 +20,4 @@ affinity: []
 volumes:
   data:
     hostPath: /mnt/data
+revisionHistoryLimit: 3

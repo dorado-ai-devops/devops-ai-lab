@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: ai-streamlit-dashboard
 spec:
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
