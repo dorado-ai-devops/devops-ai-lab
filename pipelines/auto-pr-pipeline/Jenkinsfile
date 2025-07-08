@@ -7,7 +7,7 @@ pipeline {
   }
 
   environment {
-    GITHUB_TOKEN = credentials('githupushtoken')         // Secret text en Jenkins
+    GITHUB_TOKEN = credentials('githupushtoken')    
   }
 
   stages {
