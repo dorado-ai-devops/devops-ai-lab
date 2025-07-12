@@ -1,99 +1,34 @@
-# 🧪 devops-ai-lab
+# 🧠 devops-ai-lab
 
-Repositorio central para simular entornos DevOps modernos con inteligencia artificial integrada en tareas clave de CI/CD. Incluye componentes funcionales para análisis de logs, validación de charts Helm, generación de pipelines CI/CD y un gateway API para orquestación de microservicios.
+Solución modular y local para llevar la IA real a pipelines CI/CD: orquesta, automatiza y audita tareas clave de DevOps con agentes inteligentes y microservicios especializados.
 
-Este entorno se ejecuta íntegramente de forma local usando Kubernetes con Kind, Jenkins, ArgoCD y microservicios de IA modulares.
-
----
-
-## 🧱 Componentes principales
-
-- 🔍 **ai-log-analyzer**  
-  Análisis inteligente de logs para Jenkins, Kubernetes y pipelines CI/CD usando LLMs (API remota de OpenAI y servidor local Ollama).
-
-- 📦 **ai-helm-linter**  
-  Validación semántica y estructural de charts Helm usando LLMs.  
-  - Valida `Chart.yaml`, `values.yaml` y `templates/*`  
-  - Audita sintaxis, coherencia y buenas prácticas de seguridad  
-  - Hace fallback a OpenAI cuando los modelos locales (Ollama) no pueden manejar casos complejos
-
-- 🧠 **ai-ollama**  
-  Servidor LLM local desplegado en el clúster para inferencia de IA offline (modelos como LLaMA3, Phi-3).
-
-- ⚙️ **ai-pipeline-gen**  
-  Generación automática de pipelines CI/CD (Jenkinsfiles) a partir de especificaciones en lenguaje natural.
-
-- 🔌 **ai-gateway**  
-  Gateway API basado en Flask que enruta peticiones a varios microservicios de IA (log analyzer, helm linter, pipeline generator).
-
-- 🧩 **ai-mcp-server**  
-  Servicio FastAPI para trazabilidad, recibe mensajes desde Jenkins y los convierte en mensajes MCP auditablemente visualizables.
-
-- 📊 **streamlit-dashboard**  
-  Interfaz Streamlit para mostrar prompts/respuestas/MCP en modo auditable, con filtros y SQLite para trazabilidad.
+Repositorio modular para **integrar inteligencia artificial en pipelines CI/CD y flujos DevOps modernos**.\
+Aborda desde la raíz la integración práctica de LLMs y agentes IA en DevOps, con separación estricta entre razonamiento (LangChain Agent) y microservicios funcionales independientes. Infraestructura 100% local: Kubernetes (Kind), Jenkins, ArgoCD y microservicios IA plug&play.
 
 ---
 
-## ⚙️ Infraestructura local
+## 🚦 Componentes principales
 
-- **Kind** para el clúster Kubernetes local  
-- **Jenkins** para la ejecución de CI  
-- **ArgoCD** para despliegues GitOps  
-- **Helm** charts para cada microservicio  
-- **Externalización** de `values.yaml` para flujos GitOps  
-- **Soporte de secretos** para claves de API de OpenAI  
-- Pipelines CI/CD **trazables** vía Jenkins + integración con GitHub
+- **ai-agent** (LangChain)\
+  *Cerebro central de reasoning y orquestación IA*. Gestiona el flujo de peticiones y decide qué herramienta o microservicio invocar en cada caso.
 
----
+- **ai-log-analyzer**\
+  Análisis inteligente de logs (Jenkins, Kubernetes, pipelines CI/CD) con modelos LLM (Ollama local/OpenAI remoto). Detección automatizada de causas de fallo y sugerencias de remediación.
 
-## 🔐 Secretos necesarios
+- **ai-helm-linter**\
+  Validación semántica y estructural de charts Helm. Audita sintaxis, seguridad y mejores prácticas usando IA.
 
-Almacena las credenciales de los servicios de IA de forma segura en el clúster. Por ejemplo:
+- **ai-pipeline-gen**\
+  Generador automático de Jenkinsfiles a partir de lenguaje natural. Traduce requisitos en pipelines CI/CD funcionales.
 
-```bash
-kubectl create secret generic openai-api-secret \
-  --from-literal=OPENAI_API_KEY=sk-<TU_CLAVE> \
-  -n devops-ai
-```
+- **ai-gateway**\
+  *Router Flask*. Unifica y expone los endpoints de todos los microservicios IA. Centraliza validaciones y logging de llamadas.
 
----
+- **ai-mcp-server**\
+  Servicio FastAPI para trazabilidad simbólica. Recibe mensajes de Jenkins/gateway y los almacena para visualización y auditoría.
 
-## 🚀 Despliegue con Helm y ArgoCD
-
-### Charts de Helm
-
-Los charts se encuentran bajo `manifests/helm-*`, por ejemplo:
-
-```
-manifests/helm-ai-gateway/
-manifests/helm-ai-helm-linter/
-manifests/helm-ai-pipeline-gen/
-manifests/helm-ai-mcp/
-manifests/helm-ollama/
-```
-
-Instalación manual:
-
-```bash
-helm install ai-helm-linter manifests/helm-ai-helm-linter --namespace devops-ai
-```
-
-### GitOps con ArgoCD
-
-Las apps de ArgoCD están en `manifests/<servicio>/argocd/`. Estructura de ejemplo:
-
-```
-manifests/ai-gateway/argocd/
-  ├── app-gateway.yaml
-  ├── project.yaml
-  └── values.yaml
-```
-
-Sincronizar con ArgoCD:
-
-```bash
-argocd app sync ai-helm-linter
-```
+- **streamlit-dashboard**\
+  Interfaz visual basada en Streamlit para explorar prompts, respuestas y trazas MCP. Filtros, búsqueda y descarga.
 
 ---
 
@@ -102,9 +37,10 @@ argocd app sync ai-helm-linter
 ```
 devops-ai-lab/
 ├── cluster/                   # Configs del clúster Kind
-├── docs/                      # Diagramas de arquitectura y docs de diseño
+├── docs/                      # Diagramas y documentación técnica
 ├── images/                    # Diagramas e imágenes
 ├── manifests/
+│   ├── ai-agent/
 │   ├── ai-gateway/
 │   ├── ai-helm-linter/
 │   ├── ai-log-analyzer/
@@ -125,34 +61,99 @@ devops-ai-lab/
 
 ---
 
+## ⚙️ Infraestructura local
+
+- **Kind** para el clúster Kubernetes local.
+- **Jenkins** para la ejecución de CI.
+- **ArgoCD** para despliegues GitOps.
+- **Helm** charts para cada microservicio.
+- **Externalización** de valores y secretos (API keys, tokens).
+- **Pipelines CI/CD** trazables vía Jenkins + integración con GitHub.
+
+---
+
+## 🔐 Secretos necesarios
+
+Guarda tus credenciales (ejemplo OpenAI) de forma segura:
+
+```bash
+kubectl create secret generic openai-api-secret \
+  --from-literal=OPENAI_API_KEY=sk-<TU_CLAVE> \
+  -n devops-ai
+```
+
+---
+
+## 🚀 Despliegue con Helm y ArgoCD
+
+### Charts de Helm
+
+Los charts están bajo `manifests/helm-*`:
+
+```
+manifests/helm-ai-gateway/
+manifests/helm-ai-helm-linter/
+manifests/helm-ai-pipeline-gen/
+manifests/helm-ai-mcp/
+manifests/helm-ollama/
+```
+
+Instalación ejemplo:
+
+```bash
+helm install ai-helm-linter manifests/helm-ai-helm-linter --namespace devops-ai
+```
+
+### GitOps con ArgoCD
+
+Apps ArgoCD en `manifests/<servicio>/argocd/`:
+
+```
+manifests/ai-gateway/argocd/
+  ├── app-gateway.yaml
+  ├── project.yaml
+  └── values.yaml
+```
+
+Sincronizar:
+
+```bash
+argocd app sync ai-helm-linter
+```
+
+
+---
+
 ## 🧪 Pipelines incluidos
 
 Cada microservicio tiene su Jenkinsfile de test, que llama al `ai-gateway` con inputs reales y valida el resultado:
 
-- `test-ai-gateway/Jenkinsfile`: smoke test de gateway y latencia
-- `test-ai-helm-linter/Jenkinsfile`: linteo básico de Helm Chart ejemplo
-- `test-ai-log-analyzer/Jenkinsfile`: análisis de log fallido (build error) y diagnóstico
+- `test-ai-gateway/Jenkinsfile`: smoke test de gateway y latencia.
+- `test-ai-helm-linter/Jenkinsfile`: linteo básico de Helm Chart ejemplo.
+- `test-ai-log-analyzer/Jenkinsfile`: análisis de log fallido (build error) y diagnóstico.
 
-Todos los tests se pueden extender fácilmente con inputs reales.
+Todos los tests son extendibles con inputs reales.
 
 ---
 
 ## 📌 Estado del proyecto
 
-- [x] ai-log-analyzer  
-- [x] ai-helm-linter  
-- [x] ai-pipeline-gen  
-- [x] ai-gateway
-- [x] ai-mcp-server   
-- [x] ai-ollama  
-- [x] helm + ArgoCD por microservicio  
-- [x] integración Jenkins + LLM  
-- [ ] streamlit-dashboard (en desarrollo)  
+-
 
+---
+
+## 🧠 Notas de arquitectura
+
+- **Reasoning centralizado:** El reasoning y la toma de decisiones IA están siempre dentro del agente LangChain, nunca en microservicios externos.
+- **Microservicios atómicos:** Cada microservicio realiza solo tareas concretas y especializadas (análisis, linteo, generación, inferencia LLM).
+- **Trazabilidad y auditoría:** Todos los prompts, respuestas y mensajes MCP quedan almacenados para análisis y visualización.
+- **Despliegue modular:** Todo es plug&play, actualizable y desacoplado. No requiere cloud ni dependencias externas para operar localmente.
+- **Observabilidad y monitorización:** El sistema está preparado para el registro estructurado de logs, métricas y eventos críticos para un seguimiento real en producción.
 
 ---
 
 ## 👤 Mantenedor
 
-[@dorado-ai-devops](https://github.com/dorado-ai-devops)  
+[@dorado-ai-devops](https://github.com/dorado-ai-devops)\
 Ingeniero DevOps enfocado en integración práctica de IA en flujos CI/CD
+
