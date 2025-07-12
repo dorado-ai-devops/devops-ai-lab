@@ -1,42 +1,51 @@
 # 🧪 devops-ai-lab
 
+**AI-integrated DevOps Lab – 100% Local & Modular**  
+**Laboratorio DevOps con IA – Modular y totalmente local**
+
 ![devops-ai-lab-diagram](./images/devops-ai-lab.drawio.gif)
 
-Este repositorio está disponible en múltiples idiomas.  
-This repository is available in multiple languages.
+> _See detailed docs in [English](./README_ENG.md) or [Español](./README_ES.md)._  
+> _Consulta la documentación detallada en [Español](./README_ES.md) o [English](./README_ENG.md)._
 
 ---
 
-🤖 **AI-integrated local DevOps simulation lab**  
-
-Simula un entorno DevOps completo (Jenkins + Kubernetes + IA) totalmente local, incluyendo análisis de logs, validación de Helm Charts y generación de pipelines desde texto.  
-Incluye despliegue modular con Helm + ArgoCD (GitOps) y soporte para OpenAI y Ollama.
-
---
-
-Simulates a complete DevOps environment (Jenkins + Kubernetes + AI) fully locally, including log analysis, Helm Chart validation, and pipeline generation from natural language.
-Includes modular deployment with Helm + ArgoCD (GitOps) and support for both OpenAI and Ollama.
-
-🧠 Modular • 100% local • Preparado para pipelines reales  
-🧠 Modular • Fully local • Ready for real pipelines
+Entorno DevOps real (Jenkins + Kubernetes + IA) para integraciones en local:
+- Análisis inteligente de logs  
+- Validación semántica de Helm Charts  
+- Generación automática de pipelines desde lenguaje natural  
+- Despliegue modular con Helm y ArgoCD (GitOps)  
+- Integración con OpenAI y Ollama
 
 ---
 
-## 📘 Lenguajes / Languages
-
-- 🇪🇸 [Documentación en Español](./README_ES.md)  
-  _Guía completa sobre la arquitectura, servicios incluidos, y cómo levantar todo el entorno en local._
-
-- 🇬🇧 [Documentation in English](./README_ENG.md)  
-  _Comprehensive guide on architecture, services included, and how to run the entire setup locally._
-
+Full local DevOps environment (Jenkins + Kubernetes + AI):
+- Smart log analysis  
+- Semantic Helm Chart validation  
+- Pipeline generation from natural language  
+- Modular deployment with Helm & ArgoCD (GitOps)  
+- Integrates OpenAI and Ollama
 
 ---
 
-📌 En este índice se añadirá próximamente un esquema visual del entorno.  
-📌 A visual diagram of the architecture will be added soon.
+🧠 **Modular • 100% local • Ready for real pipelines**  
+🧠 **Modular • Fully local • Preparado para pipelines reales**
 
 ---
 
-📁 Repositorio mantenido por [@dorado-ai-devops](https://github.com/dorado-ai-devops)  
-🔗 [LinkedIn – Daniel Dorado](https://www.linkedin.com/in/doradodaniel/)
+## 📚 Docs / Documentación
+
+- 🇪🇸 [README en Español](./README_ES.md): guía completa de arquitectura, servicios y despliegue.
+- 🇬🇧 [README in English](./README_ENG.md): full guide to architecture, included services, and local setup.
+
+---
+
+📌 _A visual diagram of the architecture will be added soon._  
+📌 _Próximamente: esquema visual actualizado del entorno._
+
+---
+
+**Maintained by / Mantenido por**  
+[@dorado-ai-devops](https://github.com/dorado-ai-devops)  
+[LinkedIn – Daniel Dorado](https://www.linkedin.com/in/doradodaniel/)
+
