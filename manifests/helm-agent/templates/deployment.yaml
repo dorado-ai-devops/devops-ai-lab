@@ -19,3 +19,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 5001
+          env:
+          - name: OLLAMA_BASE_URL
+            value: {{ .Values.ollama.baseUrl | quote }}
+          envFrom:
+          - secretRef:
+              name: openai-api-key
+
