@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ai-agent
+description: Helm chart for the AI Agent microservice
+type: application
+version: 0.1.0
+appVersion: "v0.1.0"
