@@ -24,5 +24,5 @@ spec:
             value: {{ .Values.ollama.baseUrl | quote }}
           envFrom:
           - secretRef:
-              name: openai-ai-secret
+              name: openai-secret
 
