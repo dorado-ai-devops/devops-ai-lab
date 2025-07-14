@@ -40,11 +40,6 @@ Full local DevOps environment (Jenkins + Kubernetes + AI):
 
 ---
 
-📌 _A visual diagram of the architecture will be added soon._  
-📌 _Próximamente: esquema visual actualizado del entorno._
-
----
-
 **Maintained by / Mantenido por**  
 [@dorado-ai-devops](https://github.com/dorado-ai-devops)  
 [LinkedIn – Daniel Dorado](https://www.linkedin.com/in/doradodaniel/)

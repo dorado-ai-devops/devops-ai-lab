@@ -1,0 +1,20 @@
+replicaCount: 1
+
+image:
+  repository: ai-agent
+  tag: v0.1.0
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 5001
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: []
+
+revisionHistoryLimit: 3
