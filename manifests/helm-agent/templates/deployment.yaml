@@ -19,11 +19,13 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 5001
+          command: ["sh", "-c"]
+          args:
+            - "cat"
           env:
           - name: OLLAMA_BASE_URL
             value: {{ .Values.ollama.baseUrl | quote }}
           envFrom:
           - secretRef:
               name: openai-secret
-      restartPolicy: Never
 
