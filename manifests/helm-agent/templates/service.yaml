@@ -9,4 +9,4 @@ spec:
   ports:
     - protocol: TCP
       port: {{ .Values.service.port }}
-      targetPort: 5001
+      targetPort: 6001
