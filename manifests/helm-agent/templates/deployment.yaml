@@ -25,4 +25,5 @@ spec:
           envFrom:
           - secretRef:
               name: openai-secret
+      restartPolicy: Never
 
