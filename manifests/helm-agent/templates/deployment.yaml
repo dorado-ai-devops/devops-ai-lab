@@ -21,7 +21,7 @@ spec:
             - containerPort: 5001
           command: ["sh", "-c"]
           args:
-            - "cat"
+            - "python main.py && tail -f /dev/null"
           env:
           - name: OLLAMA_BASE_URL
             value: {{ .Values.ollama.baseUrl | quote }}
