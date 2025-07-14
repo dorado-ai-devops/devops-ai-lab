@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: ai-gateway
-  tag: v0.1.22
+  tag: v0.1.23
   pullPolicy: IfNotPresent
 
 service:
