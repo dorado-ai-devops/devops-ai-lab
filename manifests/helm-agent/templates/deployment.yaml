@@ -27,5 +27,26 @@ spec:
             value: {{ .Values.ollama.baseUrl | quote }}
           envFrom:
           - secretRef:
-              name: openai-secret
-
+              name: openai-secret  
+          volumeMounts:
+            - name: github-ssh-key
+              mountPath: /root/.ssh/id_ed25519
+              subPath: id_ed25519
+              readOnly: true
+            - name: github-known-hosts
+              mountPath: /root/.ssh/known_hosts
+              subPath: known_hosts
+              readOnly: true
+      volumes:
+        - name: github-ssh-key
+          secret:
+            secretName: github-ssh-secret
+            items:
+              - key: GH_SECRET
+                path: id_ed25519
+        - name: github-known-hosts
+          secret:
+            secretName: github-known-hosts-secret
+            items:
+              - key: known_hosts
+                path: known_hosts
