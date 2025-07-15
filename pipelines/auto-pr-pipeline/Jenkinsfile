@@ -55,6 +55,13 @@ pipeline {
   post {
     success {
       echo "PR creado correctamente desde 'develop' hacia 'main'."
+      echo "Indexando documentacion en ai-vector-bd..."
+      
+        sh '''
+          curl -X POST "http://ai-vector-bd.devops-ai.svc.cluster.local:8888/ingest-readme" \
+               -H "Content-Type: application/json" \
+               -d '{"repo":"devops-ai-lab"}'
+        '''
     }
     failure {
       echo "Error durante la creación del PR."
