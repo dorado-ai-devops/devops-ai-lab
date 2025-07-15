@@ -12,6 +12,7 @@ Aborda desde la raíz la integración práctica de LLMs y agentes IA en DevOps, 
 - **ai-agent** (LangChain)\
   *Cerebro central de reasoning y orquestación IA*. Gestiona el flujo de peticiones y decide qué herramienta o microservicio invocar en cada caso.
 
+
 - **ai-log-analyzer**\
   Análisis inteligente de logs (Jenkins, Kubernetes, pipelines CI/CD) con modelos LLM (Ollama local/OpenAI remoto). Detección automatizada de causas de fallo y sugerencias de remediación.
 
