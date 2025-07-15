@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: ai-agent
-  tag: v0.3.47
+  tag: v0.3.48
   pullPolicy: IfNotPresent
 
 service:
