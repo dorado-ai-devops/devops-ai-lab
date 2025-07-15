@@ -1,0 +1,22 @@
+replicaCount: 1
+
+image:
+  repository: ai-vector-bd
+  tag: v0.1.0
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8888
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: []
+
+volumes:
+  data:
+    hostPath: /mnt/data/chroma

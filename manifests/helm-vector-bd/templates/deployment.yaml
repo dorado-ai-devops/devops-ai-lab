@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-vector-bd
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: ai-vector-bd
+  template:
+    metadata:
+      labels:
+        app: ai-vector-bd
+    spec:
+      containers:
+        - name: vector-bd
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8888
+          volumeMounts:
+            - name: chroma-data
+              mountPath: /data/chroma
+      volumes:
+        - name: chroma-data
+          hostPath:
+            path: {{ .Values.volumes.data.hostPath }}
+            type: DirectoryOrCreate
