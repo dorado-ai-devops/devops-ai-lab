@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: ai-agent
-  tag: v0.3.46
+  tag: v0.3.47
   pullPolicy: IfNotPresent
 
 service:
@@ -19,5 +19,6 @@ affinity: []
 
 ollama:
   baseUrl: http://ollama.devops-ai.svc.cluster.local:11434
+aiVendor: openai
 
 revisionHistoryLimit: 3
