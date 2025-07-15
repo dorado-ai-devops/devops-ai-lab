@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: git@github.com:dorado-ai-devops/devops-ai-lab.git
     targetRevision: HEAD
-    path: manifests/helm-chat-ui
+    path: manifests/helm-chat
     helm:
       valueFiles:
         - values.yaml
