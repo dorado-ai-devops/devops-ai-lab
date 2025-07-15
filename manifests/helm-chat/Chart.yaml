@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ai-chat-ui
+description: Helm chart for the AI Chat UI (Streamlit)
+type: application
+version: 0.1.0
+appVersion: "v0.1.0"
