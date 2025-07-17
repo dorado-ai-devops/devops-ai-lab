@@ -27,6 +27,8 @@ spec:
             value: {{ .Values.ollama.baseUrl | quote }}
           - name : AI_VENDOR
             value: {{ .Values.aiVendor | quote }}
+          - name : LLM_MODEL
+            value: {{ .Values.aiVendor | quote }}
           envFrom:
           - secretRef:
               name: openai-secret
