@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: localhost:5000/log-analyzer
-  tag: "v1.0.0"
+  tag: "v1.0.1"
   pullPolicy: IfNotPresent
 
 service:
