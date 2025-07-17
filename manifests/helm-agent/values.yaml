@@ -20,7 +20,7 @@ affinity: []
 ollama:
   baseUrl: http://ollama.devops-ai.svc.cluster.local:11434
 
-aiVendor: ollama
-llmModel: llama3.1
+aiVendor: openai
+llmModel: gpt-4
 
 revisionHistoryLimit: 3
