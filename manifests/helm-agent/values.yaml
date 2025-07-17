@@ -19,6 +19,8 @@ affinity: []
 
 ollama:
   baseUrl: http://ollama.devops-ai.svc.cluster.local:11434
+
 aiVendor: ollama
+llmModel: mistral
 
 revisionHistoryLimit: 3
