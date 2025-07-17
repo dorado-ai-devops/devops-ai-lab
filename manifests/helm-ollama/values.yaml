@@ -1,10 +1,17 @@
 replicaCount: 1
-
+runtimeClassName: nvidia
 image:
   repository: ollama/ollama
   tag: latest
   pullPolicy: IfNotPresent
-
+resources:
+  requests:
+    cpu:    "500m"
+    memory: "1Gi"
+  limits:
+    cpu:    "2"
+    memory: "4Gi"
+    nvidia.com/gpu: 1
 service:
   type: ClusterIP
   port: 11434

@@ -26,6 +26,8 @@ spec:
             - |
               ollama serve & 
               sleep 5 && ollama pull mistral:latest && wait
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: {{ .Values.persistence.volumeName }}
               mountPath: {{ .Values.persistence.mountPath }}
