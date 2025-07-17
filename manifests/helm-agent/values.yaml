@@ -19,6 +19,6 @@ affinity: []
 
 ollama:
   baseUrl: http://ollama.devops-ai.svc.cluster.local:11434
-aiVendor: openai
+aiVendor: ollama
 
 revisionHistoryLimit: 3
