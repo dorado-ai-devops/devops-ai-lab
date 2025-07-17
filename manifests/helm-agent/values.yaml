@@ -21,6 +21,6 @@ ollama:
   baseUrl: http://ollama.devops-ai.svc.cluster.local:11434
 
 aiVendor: ollama
-llmModel: mistral
+llmModel: llama3.1
 
 revisionHistoryLimit: 3
