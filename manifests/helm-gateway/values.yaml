@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: ai-gateway
-  tag: v0.1.23
+  repository: localhost:5000/ai-gateway
+  tag: "v1.0.0"
   pullPolicy: IfNotPresent
 
 service:

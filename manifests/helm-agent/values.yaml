@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: ai-agent
-  tag: v0.3.49
+  repository: localhost:5000/ai-agent
+  tag: "v1.0.0"
   pullPolicy: IfNotPresent
 
 service:
