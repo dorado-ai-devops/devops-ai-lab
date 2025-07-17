@@ -15,6 +15,7 @@ spec:
       labels:
         app: ollama
     spec:
+      runtimeClassName: nvidia
       containers:
         - name: ollama
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -31,7 +32,18 @@ spec:
           volumeMounts:
             - name: {{ .Values.persistence.volumeName }}
               mountPath: {{ .Values.persistence.mountPath }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 5
       volumes:
         - name: {{ .Values.persistence.volumeName }}
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim }}
+      tolerations:
+        - key: "gpu"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
