@@ -1,0 +1,15 @@
+image:
+  repository: localhost:5000/nerf-trainer
+  tag: v0.1.0
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    nvidia.com/gpu: 1
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+
+volume:
+  pvcName: pvc-datos-nerf
+  mountPath: /data
