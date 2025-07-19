@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: instant-ngp-train
+spec:
+  template:
+    spec:
+      containers:
+      - name: trainer
+        image: tu-registro/instant-ngp:latest
+        command: ["/app/instant-ngp/build/testbed"]
+        args: ["--mode", "nerf", "--scene", "/data/heat_pump"]
+        volumeMounts:
+        - name: nerf-data
+          mountPath: /data
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+      restartPolicy: Never
+      volumes:
+      - name: nerf-data
+        persistentVolumeClaim:
+          claimName: pvc-datos-nerf

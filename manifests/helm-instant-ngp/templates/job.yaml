@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: nerf-trainer
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: nerf-data
+              mountPath: {{ .Values.volume.mountPath }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: nerf-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.volume.pvcName }}
