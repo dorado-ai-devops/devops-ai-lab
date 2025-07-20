@@ -1,6 +1,25 @@
 # 🧠 devops-ai-lab
 
-Solución modular y local para llevar la IA real a pipelines CI/CD: orquesta, automatiza y audita tareas clave de DevOps con agentes inteligentes y microservicios especializados.
+Solución modular y local p├── cluster/                   # Configs del clúster Kind
+│   └── nvidia/               # Config NVIDIA device plugin
+├── docs/                      # Diagramas y documentación técnica
+├── images/                    # Diagramas e imágenes
+├── manifests/
+│   ├── ai-agent/             # Agente LangChain
+│   ├── ai-gateway/           # Router API
+│   ├── ai-helm-linter/       # Validador de charts
+│   ├── ai-instant-ngp/       # Entrenador NeRF
+│   ├── ai-colmap-init/       # Inicializador datasets
+│   ├── ai-monitoring/        # Stack monitorización
+│   │   ├── prometheus/       # Servidor de métricas
+│   │   ├── dcgm-exporter/   # Exportador NVIDIA
+│   │   └── grafana/         # Dashboards GPU
+│   ├── ai-log-analyzer/
+│   ├── ai-mcp-server/
+│   ├── ai-ollama/
+│   ├── ai-pipeline-gen/
+│   ├── helm-*/               # Charts de Helm por servicio
+│   └── jenkins/              # Jenkins charts y configal a pipelines CI/CD: orquesta, automatiza y audita tareas clave de DevOps con agentes inteligentes y microservicios especializados.
 
 Repositorio modular para **integrar inteligencia artificial en pipelines CI/CD y flujos DevOps modernos**.\
 Aborda desde la raíz la integración práctica de LLMs y agentes IA en DevOps, combinando automatización inteligente con tareas aceleradas por GPU como entrenamiento NeRF. Implementa una separación estricta entre razonamiento (LangChain Agent) y microservicios funcionales independientes. Infraestructura 100% local: Kubernetes (Kind), Jenkins, ArgoCD, tareas CUDA y microservicios IA plug&play.
@@ -13,7 +32,13 @@ Aborda desde la raíz la integración práctica de LLMs y agentes IA en DevOps, 
   *Cerebro central de reasoning y orquestación IA*. Gestiona el flujo de peticiones y decide qué herramienta o microservicio invocar en cada caso.
 
 - **ai-instant-ngp**\
-  Entrenador NeRF acelerado por CUDA usando Instant-NGP de NVIDIA. Se despliega como Jobs de Kubernetes para generación automatizada de modelos 3D a partir de datasets de imágenes.
+  Entrenador NeRF acelerado por CUDA usando Instant-NGP de NVIDIA. Se despliega como Jobs de Kubernetes para generación automatizada de modelos 3D a partir de datasets de imágenes. Optimizado para alto rendimiento con GPUs NVIDIA.
+
+- **ai-colmap-init**\
+  Inicializador de datasets NeRF. Procesa conjuntos de imágenes usando COLMAP para generar el archivo `transforms.json` necesario para el entrenamiento. Automatiza la reconstrucción de parámetros de cámara y poses 3D.
+
+- **ai-monitoring**\
+  Stack de monitorización GPU con Prometheus + NVIDIA DCGM. Recolecta métricas detalladas de uso de GPU, memoria CUDA, temperatura y rendimiento. Incluye dashboards Grafana preconfigurados y alertas.
 
 - **ai-log-analyzer**\
   Análisis inteligente de logs (Jenkins, Kubernetes, pipelines CI/CD) con modelos LLM (Ollama local/OpenAI remoto). Detección automatizada de causas de fallo y sugerencias de remediación.
@@ -40,18 +65,25 @@ Aborda desde la raíz la integración práctica de LLMs y agentes IA en DevOps, 
 ```
 devops-ai-lab/
 ├── cluster/                   # Configs del clúster Kind
+│   └── nvidia/               # Config NVIDIA device plugin
 ├── docs/                      # Diagramas y documentación técnica
 ├── images/                    # Diagramas e imágenes
 ├── manifests/
-│   ├── ai-agent/
-│   ├── ai-gateway/
-│   ├── ai-helm-linter/
+│   ├── ai-agent/             # Agente LangChain
+│   ├── ai-gateway/           # Router API
+│   ├── ai-helm-linter/       # Validador de charts
+│   ├── ai-instant-ngp/       # Entrenador NeRF
+│   ├── ai-colmap-init/       # Inicializador datasets
+│   ├── ai-monitoring/        # Stack monitorización
+│   │   ├── prometheus/       # Servidor de métricas
+│   │   ├── dcgm-exporter/   # Exportador NVIDIA
+│   │   └── grafana/         # Dashboards GPU
 │   ├── ai-log-analyzer/
 │   ├── ai-mcp-server/
 │   ├── ai-ollama/
 │   ├── ai-pipeline-gen/
 │   ├── helm-*/               # Charts de Helm por servicio
-│   └── jenkins/               # Jenkins charts y config
+│   └── jenkins/              # Jenkins charts y config
 ├── pipelines/                 # Jenkinsfiles por microservicio
 │   ├── test-ai-gateway/
 │   ├── test-ai-helm-linter/
@@ -69,7 +101,11 @@ devops-ai-lab/
 - **Kind** para el clúster Kubernetes local.
 - **Jenkins** para la ejecución de CI.
 - **ArgoCD** para despliegues GitOps.
-- **NVIDIA Device Plugin** para cargas de trabajo GPU.
+- **NVIDIA Stack**
+  - Device Plugin para acceso a GPUs
+  - DCGM Exporter para métricas GPU
+  - Prometheus para almacenamiento
+  - Grafana para visualización
 - **Helm** charts para cada microservicio.
 - **Externalización** de valores y secretos (API keys, tokens).
 - **Pipelines CI/CD** trazables vía Jenkins + integración con GitHub.
