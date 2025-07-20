@@ -9,7 +9,11 @@ resources:
   requests:
     cpu: "500m"
     memory: "1Gi"
+    nvidia.com/gpu: 1
 
 volume:
   pvcName: pvc-datos-nerf
   mountPath: /data
+
+#DATASET
+scenePath: /data/fox
