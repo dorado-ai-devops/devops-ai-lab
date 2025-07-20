@@ -51,11 +51,12 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: nerf-data
-              mountPath: {{ .Values.volume.mountPath }}
+              mountPath: /data
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          args:
-            - "{{ .Values.scenePath }}"
+          env:
+            - name: DATA_PATH
+              value: "/data/{{ .Values.datasetName }}"
 
       volumes:
         - name: nerf-data
