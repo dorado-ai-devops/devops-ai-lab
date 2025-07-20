@@ -22,17 +22,25 @@ spec:
             - -c
             - |
               set -e
-              rm -rf /data/tmp_cloned && \
-              echo "Clonando dataset desde GitHub..." && \
-              mkdir -p /root/.ssh && \
-              echo "$GH_KEY" > /root/.ssh/id_rsa && \
-              chmod 600 /root/.ssh/id_rsa && \
-              ssh-keyscan github.com >> /root/.ssh/known_hosts && \
-              git clone git@github.com:dorado-ai-devops/ai-nerf-datasets.git /data/tmp_cloned && \
-              mkdir -p /data/images && \
-              cp -r /data/tmp_cloned/{{ .Values.datasetName }}/images/* /data/images && \
-              [ "$(ls -A /data/images)" ] || (echo "No se copiaron imágenes. Abortando." && exit 1)
-              sleep infinity
+              echo "Clonando dataset desde GitHub..."
+              mkdir -p /root/.ssh
+              echo "$GH_KEY" > /root/.ssh/id_rsa
+              chmod 600 /root/.ssh/id_rsa
+              ssh-keyscan github.com >> /root/.ssh/known_hosts
+
+              if [ -d /data/tmp_cloned ]; then
+                echo "/data/tmp_cloned ya existe. Borrando..."
+                rm -rf /data/tmp_cloned
+              fi
+
+              git clone git@github.com:dorado-ai-devops/ai-nerf-datasets.git /data/tmp_cloned
+
+              echo "Copiando imágenes..."
+              mkdir -p /data/images
+              cp -r /data/tmp_cloned/{{ .Values.datasetName }}/images/* /data/images
+
+              echo "Dataset copiado correctamente"
+
           volumeMounts:
             - name: nerf-data
               mountPath: /data
