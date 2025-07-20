@@ -7,7 +7,7 @@ spec:
     spec:
       runtimeClassName: nvidia
       restartPolicy: Never
-#Init container para clonar el dataset desde GitHub
+
       initContainers:
         - name: clone-dataset
           image: alpine/git
@@ -28,7 +28,7 @@ spec:
             - name: ssh-secret
               mountPath: /secrets
               readOnly: true
-#El contenedor principal que entrena el modelo NeRF
+
       containers:
         - name: nerf-trainer
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
