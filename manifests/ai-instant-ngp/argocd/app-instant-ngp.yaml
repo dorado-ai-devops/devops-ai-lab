@@ -11,7 +11,7 @@ spec:
     path: manifests/helm-instant-ngp
     helm:
       valueFiles:
-        - ../ai-instant-ngp-job/argocd/values.yaml
+        - ../ai-instant-ngp/argocd/values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: devops-ai
