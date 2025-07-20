@@ -16,6 +16,7 @@ volume:
   mountPath: /data
 
 datasetName: lego-ds
+imgCopyMode: TOTAL
 
 init:
   image:
