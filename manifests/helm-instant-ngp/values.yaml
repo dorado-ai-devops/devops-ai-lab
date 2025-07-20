@@ -15,5 +15,7 @@ volume:
   pvcName: pvc-datos-nerf
   mountPath: /data
 
-#DATASET
-scenePath: /data/fox
+# Nombre del dataset dentro del repo ai-nerf-datasets 
+datasetName: nerf-demo
+# Ruta al directorio de imágenes dentro del PVC
+scenePath: /data/images
