@@ -32,6 +32,7 @@ spec:
               mkdir -p /data/images && \
               cp -r /data/tmp_cloned/{{ .Values.datasetName }}/images/* /data/images && \
               [ "$(ls -A /data/images)" ] || (echo "No se copiaron imágenes. Abortando." && exit 1)
+              sleep infinity
           volumeMounts:
             - name: nerf-data
               mountPath: /data
