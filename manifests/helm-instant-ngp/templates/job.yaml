@@ -5,6 +5,7 @@ metadata:
 spec:
   template:
     spec:
+      runtimeClassName: nvidia
       restartPolicy: Never
       containers:
         - name: nerf-trainer
@@ -21,3 +22,8 @@ spec:
         - name: nerf-data
           persistentVolumeClaim:
             claimName: {{ .Values.volume.pvcName }}
+      tolerations:
+        - key: "gpu"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
