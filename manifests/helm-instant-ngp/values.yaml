@@ -15,7 +15,6 @@ volume:
   pvcName: pvc-datos-nerf
   mountPath: /data
 
-# Nombre del dataset dentro del repo ai-nerf-datasets 
-datasetName: nerf-demo
-# Ruta al directorio de imágenes dentro del PVC
+
+datasetName: lego-ds
 scenePath: /data/images
