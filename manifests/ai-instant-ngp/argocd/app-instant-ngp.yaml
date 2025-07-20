@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: git@github.com/dorado-ai-devops/devops-ai-lab.git
     targetRevision: HEAD
-    path: manifests/helm-instant-ngp-job
+    path: manifests/helm-instant-ngp
     helm:
       valueFiles:
         - ../ai-instant-ngp-job/argocd/values.yaml
