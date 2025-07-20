@@ -17,4 +17,4 @@ volume:
 
 
 datasetName: lego-ds
-scenePath: /data/images
+scenePath: /data/lego-ds

@@ -35,9 +35,9 @@ spec:
 
               git clone git@github.com:dorado-ai-devops/ai-nerf-datasets.git /data/tmp_cloned
 
-              echo "Copiando imágenes..."
-              mkdir -p /data/images
-              cp -r /data/tmp_cloned/{{ .Values.datasetName }}/images/* /data/images
+              echo "Copiando imágenes y transforms.json..."
+              mkdir -p /data/{{ .Values.datasetName }}
+              cp -r /data/tmp_cloned/{{ .Values.datasetName }}/* /data/{{ .Values.datasetName }}
 
               echo "Dataset copiado correctamente"
 
