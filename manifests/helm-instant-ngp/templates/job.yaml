@@ -20,6 +20,8 @@ spec:
                   key: GH_SECRET
             - name: DATASET_NAME
               value: "{{ .Values.datasetName }}"
+            - name: IMG_COPY_MODE
+              value: "{{ .Values.imgCopyMode }}"
             - name: DATA_PATH
               value: "{{ .Values.volume.mountPath }}/{{ .Values.datasetName }}"
           volumeMounts:
