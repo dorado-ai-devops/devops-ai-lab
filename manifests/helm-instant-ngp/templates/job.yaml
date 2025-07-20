@@ -22,6 +22,8 @@ spec:
             - -c
             - |
               set -e
+              rm -rf /data/tmp_cloned && \
+              echo "Clonando dataset desde GitHub..." && \
               mkdir -p /root/.ssh && \
               echo "$GH_KEY" > /root/.ssh/id_rsa && \
               chmod 600 /root/.ssh/id_rsa && \
