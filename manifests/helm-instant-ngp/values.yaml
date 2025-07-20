@@ -21,7 +21,7 @@ imgCopyMode: TOTAL
 init:
   image:
     repository: localhost:5000/colmap-init
-    tag: "v0.1.4"
+    tag: "v0.1.5"
     pullPolicy: IfNotPresent
   resources:
     requests:
