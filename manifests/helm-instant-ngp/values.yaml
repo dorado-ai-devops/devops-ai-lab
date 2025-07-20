@@ -15,5 +15,10 @@ volume:
   pvcName: pvc-datos-nerf
   mountPath: /data
 
-
 datasetName: lego-ds
+
+init:
+  image:
+    repository: localhost:5000/colmap-init
+    tag: "v0.1.0"
+    pullPolicy: IfNotPresent
