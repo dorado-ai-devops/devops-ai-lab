@@ -11,12 +11,18 @@ spec:
       initContainers:
         - name: clone-dataset
           image: alpine/git
+          env:
+            - name: GH_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: github-ssh-secret
+                  key: GH_SECRET
           command:
             - sh
             - -c
             - |
               mkdir -p /root/.ssh && \
-              cp /secrets/GH_SECRET /root/.ssh/id_rsa && \
+              echo "$GH_KEY" > /root/.ssh/id_rsa && \
               chmod 600 /root/.ssh/id_rsa && \
               ssh-keyscan github.com >> /root/.ssh/known_hosts && \
               git clone git@github.com:dorado-ai-devops/ai-nerf-datasets.git /data/tmp && \
@@ -25,9 +31,6 @@ spec:
           volumeMounts:
             - name: nerf-data
               mountPath: /data
-            - name: ssh-secret
-              mountPath: /secrets
-              readOnly: true
 
       containers:
         - name: nerf-trainer
@@ -45,9 +48,6 @@ spec:
         - name: nerf-data
           persistentVolumeClaim:
             claimName: {{ .Values.volume.pvcName }}
-        - name: ssh-secret
-          secret:
-            secretName: github-ssh-secret
 
       tolerations:
         - key: "gpu"
