@@ -3,7 +3,7 @@
 Solución modular y local para llevar la IA real a pipelines CI/CD: orquesta, automatiza y audita tareas clave de DevOps con agentes inteligentes y microservicios especializados.
 
 Repositorio modular para **integrar inteligencia artificial en pipelines CI/CD y flujos DevOps modernos**.\
-Aborda desde la raíz la integración práctica de LLMs y agentes IA en DevOps, con separación estricta entre razonamiento (LangChain Agent) y microservicios funcionales independientes. Infraestructura 100% local: Kubernetes (Kind), Jenkins, ArgoCD y microservicios IA plug&play.
+Aborda desde la raíz la integración práctica de LLMs y agentes IA en DevOps, combinando automatización inteligente con tareas aceleradas por GPU como entrenamiento NeRF. Implementa una separación estricta entre razonamiento (LangChain Agent) y microservicios funcionales independientes. Infraestructura 100% local: Kubernetes (Kind), Jenkins, ArgoCD, tareas CUDA y microservicios IA plug&play.
 
 ---
 
@@ -12,6 +12,8 @@ Aborda desde la raíz la integración práctica de LLMs y agentes IA en DevOps, 
 - **ai-agent** (LangChain)\
   *Cerebro central de reasoning y orquestación IA*. Gestiona el flujo de peticiones y decide qué herramienta o microservicio invocar en cada caso.
 
+- **ai-instant-ngp**\
+  Entrenador NeRF acelerado por CUDA usando Instant-NGP de NVIDIA. Se despliega como Jobs de Kubernetes para generación automatizada de modelos 3D a partir de datasets de imágenes.
 
 - **ai-log-analyzer**\
   Análisis inteligente de logs (Jenkins, Kubernetes, pipelines CI/CD) con modelos LLM (Ollama local/OpenAI remoto). Detección automatizada de causas de fallo y sugerencias de remediación.
@@ -67,9 +69,11 @@ devops-ai-lab/
 - **Kind** para el clúster Kubernetes local.
 - **Jenkins** para la ejecución de CI.
 - **ArgoCD** para despliegues GitOps.
+- **NVIDIA Device Plugin** para cargas de trabajo GPU.
 - **Helm** charts para cada microservicio.
 - **Externalización** de valores y secretos (API keys, tokens).
 - **Pipelines CI/CD** trazables vía Jenkins + integración con GitHub.
+- **Volúmenes Persistentes** para datasets y salidas de modelos.
 
 ---
 
@@ -125,15 +129,16 @@ argocd app sync ai-helm-linter
 
 ---
 
-## 🧪 Pipelines incluidos
+## 🧪 Pipelines y Jobs incluidos
 
-Cada microservicio tiene su Jenkinsfile de test, que llama al `ai-gateway` con inputs reales y valida el resultado:
+Cada microservicio tiene su Jenkinsfile de test o definición de Job de Kubernetes:
 
 - `test-ai-gateway/Jenkinsfile`: smoke test de gateway y latencia.
 - `test-ai-helm-linter/Jenkinsfile`: linteo básico de Helm Chart ejemplo.
 - `test-ai-log-analyzer/Jenkinsfile`: análisis de log fallido (build error) y diagnóstico.
+- `ai-instant-ngp/job.yaml`: job de entrenamiento NeRF acelerado por GPU.
 
-Todos los tests son extendibles con inputs reales.
+Los pipelines y jobs son configurables a través de ArgoCD y fácilmente extendibles con inputs reales.
 
 ---
 
@@ -146,10 +151,11 @@ Todos los tests son extendibles con inputs reales.
 ## 🧠 Notas de arquitectura
 
 - **Reasoning centralizado:** El reasoning y la toma de decisiones IA están siempre dentro del agente LangChain, nunca en microservicios externos.
-- **Microservicios atómicos:** Cada microservicio realiza solo tareas concretas y especializadas (análisis, linteo, generación, inferencia LLM).
+- **Microservicios atómicos:** Cada microservicio realiza solo tareas concretas y especializadas (análisis, linteo, generación, inferencia LLM, entrenamiento NeRF).
+- **Aceleración GPU:** Soporte para cargas de trabajo CUDA a través de plugins de dispositivos Kubernetes y tareas containerizadas con GPU.
 - **Trazabilidad y auditoría:** Todos los prompts, respuestas y mensajes MCP quedan almacenados para análisis y visualización.
 - **Despliegue modular:** Todo es plug&play, actualizable y desacoplado. No requiere cloud ni dependencias externas para operar localmente.
-- **Observabilidad y monitorización:** El sistema está preparado para el registro estructurado de logs, métricas y eventos críticos para un seguimiento real en producción.
+- **Observabilidad y monitorización:** El sistema está preparado para el registro estructurado de logs, métricas (incluyendo métricas GPU) y eventos críticos para un seguimiento real en producción.
 
 ---
 

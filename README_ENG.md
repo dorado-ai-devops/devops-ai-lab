@@ -3,7 +3,7 @@
 Modular, local-first solution to bring real AI into CI/CD pipelines: orchestrate, automate, and audit key DevOps tasks with intelligent agents and specialized microservices.
 
 A modular repository to **integrate artificial intelligence into CI/CD pipelines and modern DevOps workflows**.\
-Enables practical, local-first LLM and AI agent integration in DevOps, with strict separation between reasoning (LangChain Agent) and independent functional microservices. 100% local infrastructure: Kubernetes (Kind), Jenkins, ArgoCD, and plug&play AI microservices.
+Enables practical, local-first LLM and AI agent integration in DevOps, combining intelligent automation with GPU-accelerated tasks like NeRF training. Features strict separation between reasoning (LangChain Agent) and independent functional microservices. 100% local infrastructure: Kubernetes (Kind), Jenkins, ArgoCD, CUDA-enabled tasks, and plug&play AI microservices.
 
 ---
 
@@ -11,6 +11,9 @@ Enables practical, local-first LLM and AI agent integration in DevOps, with stri
 
 - **ai-agent** (LangChain)\
   *Central brain for AI reasoning and orchestration.* Manages request flow and decides which tool or microservice to invoke in each case.
+
+- **ai-instant-ngp**\
+  CUDA-accelerated NeRF trainer using NVIDIA's Instant-NGP. Deploys as Kubernetes Jobs for automated 3D model generation from image datasets.
 
 - **ai-log-analyzer**\
   Intelligent log analysis (Jenkins, Kubernetes, CI/CD pipelines) with LLMs (local Ollama / remote OpenAI). Automated root cause detection and remediation suggestions.
@@ -66,9 +69,11 @@ devops-ai-lab/
 - **Kind** for the local Kubernetes cluster.
 - **Jenkins** for CI execution.
 - **ArgoCD** for GitOps deployments.
+- **NVIDIA Device Plugin** for GPU workloads.
 - **Helm** charts for each microservice.
 - **Externalization** of values and secrets (API keys, tokens).
 - **Traceable CI/CD pipelines** via Jenkins + GitHub integration.
+- **Persistent Volumes** for datasets and model outputs.
 
 ---
 
@@ -123,15 +128,16 @@ argocd app sync ai-helm-linter
 
 ---
 
-## 🧪 Included Pipelines
+## 🧪 Included Pipelines and Jobs
 
-Each microservice has its own Jenkinsfile test, which calls `ai-gateway` with real inputs and validates the result:
+Each microservice has its own Jenkinsfile test or Kubernetes Job definition:
 
 - `test-ai-gateway/Jenkinsfile`: smoke test of gateway and latency.
 - `test-ai-helm-linter/Jenkinsfile`: basic linting of sample Helm Chart.
 - `test-ai-log-analyzer/Jenkinsfile`: analysis of failed log (build error) and diagnosis.
+- `ai-instant-ngp/job.yaml`: GPU-accelerated NeRF training job.
 
-All tests are easily extendable with real inputs.
+The pipelines and jobs are configurable through ArgoCD and easily extendable with real inputs.
 
 ---
 
@@ -144,10 +150,11 @@ All tests are easily extendable with real inputs.
 ## 🧠 Architecture Notes
 
 - **Centralized reasoning:** All AI reasoning and decision-making is always within the LangChain agent, never in external microservices.
-- **Atomic microservices:** Each microservice only performs specific and specialized tasks (analysis, linting, generation, LLM inference).
+- **Atomic microservices:** Each microservice only performs specific and specialized tasks (analysis, linting, generation, LLM inference, NeRF training).
+- **GPU Acceleration:** Support for CUDA-enabled workloads through Kubernetes device plugins and containerized GPU tasks.
 - **Traceability and audit:** All prompts, responses, and MCP messages are stored for analysis and visualization.
 - **Modular deployment:** Everything is plug&play, upgradable and decoupled. No cloud or external dependencies required to run locally.
-- **Observability & Monitoring:** The system supports structured logging, metrics, and critical event tracking for real production-grade monitoring.
+- **Observability & Monitoring:** The system supports structured logging, metrics (including GPU metrics), and critical event tracking for real production-grade monitoring.
 
 ---
 

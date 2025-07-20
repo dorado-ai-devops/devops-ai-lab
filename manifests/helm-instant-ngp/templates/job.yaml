@@ -9,41 +9,22 @@ spec:
       restartPolicy: Never
 
       initContainers:
-        - name: clone-dataset
-          image: alpine/git
+        - name: prepare-dataset
+          image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
+          imagePullPolicy: {{ .Values.init.image.pullPolicy }}
           env:
             - name: GH_KEY
               valueFrom:
                 secretKeyRef:
                   name: github-ssh-secret
                   key: GH_SECRET
-          command:
-            - sh
-            - -c
-            - |
-              set -e
-              echo "Clonando dataset desde GitHub..."
-              mkdir -p /root/.ssh
-              echo "$GH_KEY" > /root/.ssh/id_rsa
-              chmod 600 /root/.ssh/id_rsa
-              ssh-keyscan github.com >> /root/.ssh/known_hosts
-
-              if [ -d /data/tmp_cloned ]; then
-                echo "/data/tmp_cloned ya existe. Borrando..."
-                rm -rf /data/tmp_cloned
-              fi
-
-              git clone git@github.com:dorado-ai-devops/ai-nerf-datasets.git /data/tmp_cloned
-
-              echo "Copiando imágenes y transforms.json..."
-              mkdir -p /data/{{ .Values.datasetName }}
-              cp -r /data/tmp_cloned/{{ .Values.datasetName }}/* /data/{{ .Values.datasetName }}
-
-              echo "Dataset copiado correctamente"
-
+            - name: DATASET_NAME
+              value: "{{ .Values.datasetName }}"
+            - name: DATA_PATH
+              value: "{{ .Values.volume.mountPath }}/{{ .Values.datasetName }}"
           volumeMounts:
             - name: nerf-data
-              mountPath: /data
+              mountPath: {{ .Values.volume.mountPath }}
 
       containers:
         - name: nerf-trainer
@@ -51,12 +32,12 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: nerf-data
-              mountPath: /data
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+              mountPath: {{ .Values.volume.mountPath }}
           env:
             - name: DATA_PATH
-              value: "/data/{{ .Values.datasetName }}"
+              value: "{{ .Values.volume.mountPath }}/{{ .Values.datasetName }}"
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
 
       volumes:
         - name: nerf-data
