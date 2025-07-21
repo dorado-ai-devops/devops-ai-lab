@@ -4,7 +4,7 @@ metadata:
   name: dcgm-exporter
   namespace: argocd
 spec:
-  project: devops-ai-project
+  project: default
   source:
     repoURL: git@github.com/dorado-ai-devops/devops-ai-lab.git
     targetRevision: HEAD
