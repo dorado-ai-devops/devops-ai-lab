@@ -37,6 +37,8 @@ serviceMonitor:
   apiVersion: "monitoring.coreos.com/v1"
   enabled: true
   interval: 15s
+  additionalLabels:
+  release: kube-prometheus-stack
 
 nodeSelector:
   kubernetes.io/hostname: deletepc
