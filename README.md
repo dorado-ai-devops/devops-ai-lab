@@ -1,6 +1,13 @@
 # 🧪 devops-ai-lab
 
-![dev## 🔌 Components / Componentes
+![devops-ai-lab-diagram](./images/devops-ai-lab.drawio.gif)
+
+## 📦 Quick Start / Inicio Rápido
+
+> 🌐 **[Documentation in English](./README_ENG.md)** | **[Documentación en Español](./README_ES.md)**
+
+
+## 🔌 Components / Componentes
 
 Each component has its own repository with detailed documentation / Cada componente tiene su propio repositorio con documentación detallada:
 
@@ -34,12 +41,6 @@ Each component has its own repository with detailed documentation / Cada compone
 |------------------------|------------------------|
 | [ai-chat-ui](https://github.com/dorado-ai-devops/ai-chat-ui) | Web Chat Interface / Interfaz web de chat |
 | [ai-streamlit-dashboard](https://github.com/dorado-ai-devops/ai-streamlit-dashboard) | Metrics Dashboard / Dashboard de métricas |
-
-## 📦 Quick Start / Inicio Rápidoiagram](./images/devops-ai-lab.drawio.gif)
-
-> 🌐 **[Documentation in English](./README_ENG.md)** | **[Documentación en Español](./README_ES.md)**
-
-
 
 ## 🔑 Key Features / Características Principales
 
