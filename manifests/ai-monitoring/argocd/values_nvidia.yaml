@@ -38,7 +38,7 @@ serviceMonitor:
   enabled: true
   interval: 15s
   additionalLabels:
-  release: kube-prometheus-stack
+    release: kube-prometheus-stack
 
 nodeSelector:
   kubernetes.io/hostname: deletepc
