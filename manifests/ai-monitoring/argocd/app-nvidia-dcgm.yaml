@@ -11,7 +11,7 @@ spec:
     path: manifests/helm-nvidia-dcgm
     helm:
       valueFiles:
-        - ..ai-monitoring/argocd/values_nvidia.yaml
+        - ../ai-monitoring/argocd/values_nvidia.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
