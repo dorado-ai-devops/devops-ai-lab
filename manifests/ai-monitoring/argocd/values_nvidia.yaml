@@ -23,9 +23,6 @@ securityContext:
   capabilities:
     add: ["SYS_ADMIN"]
 
-resources:
-  limits:
-    nvidia.com/gpu: 1
 
 service:
   enable: true
