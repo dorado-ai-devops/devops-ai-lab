@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://helm.ngc.nvidia.com/nvidia
+    repoURL: https://nvidia.github.io/dcgm-exporter/helm-charts
     chart: dcgm-exporter
     targetRevision: 4.2.3
     helm:
