@@ -11,6 +11,8 @@ spec:
     targetRevision: 75.12.0
     helm:
       releaseName: monitoring
+      valueFiles:
+        - values_prom.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
@@ -20,3 +22,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - Replace=true
