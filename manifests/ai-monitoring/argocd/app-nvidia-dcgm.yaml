@@ -12,7 +12,7 @@ spec:
     helm:
       releaseName: dcgm-exporter
       valueFiles:
-        ../ai-monitoring/argocd/values_nvidia.yaml
+        - ../ai-monitoring/argocd/values_nvidia.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
