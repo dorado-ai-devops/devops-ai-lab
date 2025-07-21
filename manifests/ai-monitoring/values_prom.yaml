@@ -1,2 +1,2 @@
-hostRootFsMount:
+prometheus-node-exporter:
   enabled: false
