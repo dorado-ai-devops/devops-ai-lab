@@ -1,9 +1,17 @@
 # 🧠 devops-ai-lab
 
-Modular, local-first solution to bring real AI into CI/CD pipelines: orchestrate, automate, and audit key DevOps tasks with intelligent agents and specialized microservices.
+Modular, local-first solution to b│   ├── ai-monitoring/        # Monitoring stack
+│   │   ├── prometheus/       # Metrics server
+│   │   ├── dcgm-exporter/   # NVIDIA exporter
+│   │   └── grafana/         # GPU dashboards
+│   ├── ai-dashboard/        # Real-time GPU dashboard
+│   ├── ai-log-analyzer/
+│   ├── ai-mcp-server/
+│   ├── ai-ollama/
+│   ├── ai-pipeline-gen/l AI into CI/CD pipelines: orchestrate, automate, and audit key DevOps tasks with intelligent agents and specialized microservices.
 
 A modular repository to **integrate artificial intelligence into CI/CD pipelines and modern DevOps workflows**.\
-Enables practical, local-first LLM and AI agent integration in DevOps, combining intelligent automation with GPU-accelerated tasks like NeRF training. Features strict separation between reasoning (LangChain Agent) and independent functional microservices. 100% local infrastructure: Kubernetes (Kind), Jenkins, ArgoCD, CUDA-enabled tasks, and plug&play AI microservices.
+Enables practical, local-first LLM and AI agent integration in DevOps, combining intelligent automation with GPU-accelerated tasks like NeRF training. Features strict separation between reasoning (LangChain Agent) and independent functional microservices. 100% local infrastructure: Kubernetes (k3s), Jenkins, ArgoCD, CUDA-enabled tasks, and plug&play AI microservices.
 
 ---
 
@@ -14,6 +22,9 @@ Enables practical, local-first LLM and AI agent integration in DevOps, combining
 
 - **ai-instant-ngp**\
   CUDA-accelerated NeRF trainer using NVIDIA's Instant-NGP. Deploys as Kubernetes Jobs for automated 3D model generation from image datasets.
+
+- **ai-monitoring**\
+  GPU monitoring stack with Prometheus + NVIDIA DCGM. Collects detailed metrics on GPU usage, CUDA memory, temperature, and performance. Includes preconfigured Grafana dashboards and alerts.
 
 - **ai-log-analyzer**\
   Intelligent log analysis (Jenkins, Kubernetes, CI/CD pipelines) with LLMs (local Ollama / remote OpenAI). Automated root cause detection and remediation suggestions.
@@ -33,19 +44,28 @@ Enables practical, local-first LLM and AI agent integration in DevOps, combining
 - **streamlit-dashboard**\
   Streamlit-based visual interface to explore prompts, responses, and MCP traces. Filtering, search, and download.
 
+- **ai-dashboard**\
+  Interactive dashboard for real-time GPU metrics visualization. Features GPU utilization graphs, CUDA memory usage, temperature monitoring, and performance metrics, with support for alerts and notifications. Grafana integration for historical metrics.
+
 ---
 
 ## 📂 Project Structure
 
 ```
 devops-ai-lab/
-├── cluster/                   # Kind cluster configs
+├── cluster/                   # k3s cluster 
 ├── docs/                      # Architecture diagrams and technical docs
 ├── images/                    # Diagrams and images
 ├── manifests/
-│   ├── ai-agent/
-│   ├── ai-gateway/
-│   ├── ai-helm-linter/
+│   ├── ai-agent/             # LangChain agent
+│   ├── ai-gateway/           # API router
+│   ├── ai-helm-linter/       # Chart validator
+│   ├── ai-instant-ngp/       # NeRF trainer
+│   ├── ai-colmap-init/       # Dataset 
+│   ├── ai-monitoring/        # Monitoring 
+│   │   ├── prometheus/       # Metrics server
+│   │   ├── dcgm-exporter/   # NVIDIA exporter
+│   │   └── grafana/         # GPU dashboards
 │   ├── ai-log-analyzer/
 │   ├── ai-mcp-server/
 │   ├── ai-ollama/
@@ -66,10 +86,14 @@ devops-ai-lab/
 
 ## ⚙️ Local Infrastructure
 
-- **Kind** for the local Kubernetes cluster.
+- **k3s** for the local Kubernetes cluster.
 - **Jenkins** for CI execution.
 - **ArgoCD** for GitOps deployments.
-- **NVIDIA Device Plugin** for GPU workloads.
+- **NVIDIA Stack**
+  - Device Plugin for GPU access
+  - DCGM Exporter for GPU metrics
+  - Prometheus for storage
+  - Grafana for visualization
 - **Helm** charts for each microservice.
 - **Externalization** of values and secrets (API keys, tokens).
 - **Traceable CI/CD pipelines** via Jenkins + GitHub integration.
@@ -125,6 +149,46 @@ Sync:
 ```bash
 argocd app sync ai-helm-linter
 ```
+
+### GPU Monitoring Stack
+
+The NVIDIA monitoring stack includes:
+
+1. **NVIDIA DCGM Exporter**
+   ```yaml
+   # manifests/ai-monitoring/argocd/app-nvidia-dcgm.yaml
+   apiVersion: argoproj.io/v1alpha1
+   kind: Application
+   metadata:
+     name: dcgm-exporter
+     namespace: argocd
+   spec:
+     source:
+       repoURL: git@github.com/dorado-ai-devops/devops-ai-lab.git
+       path: helm-nvidia-dcgm
+   ```
+   
+2. **Collected Metrics:**
+   - GPU Utilization (%)
+   - CUDA Memory used/total
+   - GPU Temperature
+   - Memory utilization
+   - Fan speed and power usage
+   - CUDA/XID errors
+
+3. **Grafana Dashboards:**
+   - GPU Overview
+   - Per Node/GPU metrics
+   - Usage history
+   - Configurable alerts
+
+4. **Setup:**
+   ```bash
+   # Deploy full stack
+   argocd app sync dcgm-exporter
+   argocd app sync prometheus
+   argocd app sync grafana
+   ```
 
 ---
 

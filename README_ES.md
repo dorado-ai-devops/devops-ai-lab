@@ -35,9 +35,17 @@ Permite la integración práctica de LLMs y agentes de IA en DevOps de manera lo
 - **ai-mcp-server**\
   Servicio FastAPI para trazabilidad simbólica. Recibe mensajes de Jenkins/gateway y los almacena para visualización y auditoría.
 
+- **ai-vector-db**\
+  Base de datos vectorial para almacenar y consultar embeddings de código, logs y documentación. Permite búsquedas semánticas y RAG.
+
+- **ai-chat-ui**\
+  Interfaz web para interactuar con el agente LangChain. Soporta historial de conversaciones, contexto persistente y visualización de acciones.
+
 - **streamlit-dashboard**\
   Interfaz visual basada en Streamlit para explorar prompts, respuestas y trazas MCP. Filtros, búsqueda y descarga.
 
+- **ai-dashboard**\
+  Dashboard interactivo para visualizar llamadas y acciones del agente y sus correspondientes mensajes mcp. 
 ---
 
 ## 📂 Estructura del proyecto
@@ -50,20 +58,37 @@ devops-ai-lab/
 ├── images/                    # Diagramas e imágenes
 ├── manifests/
 │   ├── ai-agent/             # Agente LangChain
-│   ├── ai-gateway/           # Router API
-│   ├── ai-helm-linter/       # Validador de charts
-│   ├── ai-instant-ngp/       # Entrenador NeRF
-│   ├── ai-colmap-init/       # Inicializador datasets
-│   ├── ai-monitoring/        # Stack monitorización
-│   │   ├── prometheus/       # Servidor de métricas
-│   │   ├── dcgm-exporter/   # Exportador NVIDIA
-│   │   └── grafana/         # Dashboards GPU
+│   │   └── argocd/          # Configuración ArgoCD
+│   ├── ai-chat-ui/          # UI de chat con el agente
+│   │   └── argocd/
+│   ├── ai-dashboard/        # Dashboard de monitoreo
+│   │   └── argocd/
+│   ├── ai-gateway/          # Router API
+│   │   └── argocd/
+│   ├── ai-helm-linter/      # Validador de charts
+│   │   └── argocd/
+│   ├── ai-instant-ngp/      # Entrenador NeRF
+│   │   ├── argocd/
+│   │   └── pvc-datos-nerf.yaml
+│   ├── ai-monitoring/       # Stack monitorización
+│   │   └── argocd/
+│   │       ├── app-nvidia-dcgm.yaml
+│   │       ├── app-prometheus.yaml
+│   │       └── values_nvidia.yaml
+│   ├── ai-vector-db/       # Base de datos vectorial
+│   │   └── argocd/
 │   ├── ai-log-analyzer/
 │   ├── ai-mcp-server/
 │   ├── ai-ollama/
 │   ├── ai-pipeline-gen/
-│   ├── helm-*/               # Charts de Helm por servicio
-│   └── jenkins/              # Jenkins charts y config
+│   └── jenkins/            # Jenkins configuration
+├── helm-*/                 # Charts de Helm por servicio
+│   ├── Chart.yaml
+│   ├── templates/
+│   │   ├── deployment.yaml
+│   │   ├── service.yaml
+│   │   └── _helpers.tpl
+│   └── values.yaml
 ├── pipelines/                 # Jenkinsfiles por microservicio
 │   ├── test-ai-gateway/
 │   ├── test-ai-helm-linter/
@@ -109,15 +134,31 @@ kubectl create secret generic openai-api-secret \
 
 ### Charts de Helm
 
-Los charts están bajo `manifests/helm-*`:
+Los charts están bajo `helm-*/`:
 
 ```
-manifests/helm-ai-gateway/
-manifests/helm-ai-helm-linter/
-manifests/helm-ai-pipeline-gen/
-manifests/helm-ai-mcp/
-manifests/helm-ollama/
+helm-agent/            # Agente LangChain
+helm-chat/            # UI de chat
+helm-dashboard/       # Dashboard de monitoreo
+helm-gateway/         # API Gateway
+helm-helm-linter/     # Validador de charts
+helm-instant-ngp/     # Entrenador NeRF
+helm-jenkins/         # Servidor CI/CD
+helm-log-analyzer/    # Analizador de logs
+helm-mcp/            # Servidor MCP
+helm-nvidia-dcgm/     # Monitoreo GPU
+helm-ollama/         # Servidor LLM local
+helm-pipeline-gen/    # Generador pipelines
+helm-vector-bd/      # Base datos vectorial
 ```
+
+Cada chart incluye:
+- `Chart.yaml`: Metadatos y dependencias
+- `values.yaml`: Valores configurables
+- `templates/`: Plantillas K8s
+  - `deployment.yaml`: Pod specs
+  - `service.yaml`: Network services
+  - `_helpers.tpl`: Helpers comunes
 
 Instalación ejemplo:
 
@@ -141,6 +182,39 @@ Sincronizar:
 ```bash
 argocd app sync ai-helm-linter
 ```
+
+### Stack de Monitorización GPU
+
+El stack de monitorización NVIDIA incluye:
+
+1. **NVIDIA DCGM Exporter**
+   ```yaml
+   # manifests/ai-monitoring/argocd/app-nvidia-dcgm.yaml
+   apiVersion: argoproj.io/v1alpha1
+   kind: Application
+   metadata:
+     name: dcgm-exporter
+     namespace: argocd
+   spec:
+     source:
+       repoURL: git@github.com/dorado-ai-devops/devops-ai-lab.git
+       path: helm-nvidia-dcgm
+   ```
+   
+2. **Métricas recolectadas:**
+   - Uso de GPU (%)
+   - Memoria CUDA usada/total
+   - Temperatura de GPU
+   - Utilización de memoria
+   - Fan speed y power usage
+   - Errores CUDA/XID
+
+3. **Dashboards Grafana:**
+   - Vista general de GPUs
+   - Métricas por nodo/GPU
+   - Histórico de uso
+   - Alertas configurables
+
 
 
 ---
@@ -171,7 +245,7 @@ Los pipelines y jobs son configurables a través de ArgoCD y fácilmente extendi
 - **Aceleración GPU:** Soporte para cargas de trabajo CUDA a través de plugins de dispositivos Kubernetes y tareas containerizadas con GPU.
 - **Trazabilidad y auditoría:** Todos los prompts, respuestas y mensajes MCP quedan almacenados para análisis y visualización.
 - **Despliegue modular:** Todo es plug&play, actualizable y desacoplado. No requiere cloud ni dependencias externas para operar localmente.
-- **Observabilidad y monitorización:** El sistema está preparado para el registro estructurado de logs, métricas (incluyendo métricas GPU) y eventos críticos para un seguimiento real en producción.
+- **Observabilidad y monitorización:** El sistema está preparado para el registro estructurado de logs, métricas y eventos críticos. Incluye monitorización detallada de GPUs mediante NVIDIA DCGM + Prometheus, dashboards preconfigurados en Grafana y sistema de alertas para rendimiento y salud de GPUs.
 
 ---
 

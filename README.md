@@ -1,79 +1,65 @@
 # 🧪 devops-ai-lab
 
-**AI-integrated DevOps Lab – 100% Local & Modular**  
-**Laboratorio DevOps con IA – Modular y totalmente local**
+![dev## 🔌 Components / Componentes
 
-![devops-ai-lab-diagram](./images/devops-ai-lab.drawio.gif)
+Each component has its own repository with detailed documentation / Cada componente tiene su propio repositorio con documentación detallada:
 
-> _See detailed docs in [English](./README_ENG.md) or [Español](./README_ES.md)._  
-> _Consulta la documentación detallada en [Español](./README_ES.md) o [English](./README_ENG.md)._
+### Core Services / Servicios Core
 
----
+| Repository / Repositorio | Description / Descripción |
+|------------------------|------------------------|
+| [ai-agent](https://github.com/dorado-ai-devops/ai-agent) | LangChain Agent & Tools / Agente y herramientas |
+| [ai-gateway](https://github.com/dorado-ai-devops/ai-gateway) | API Gateway & Router / Gateway y router API |
+| [ai-mcp-server](https://github.com/dorado-ai-devops/ai-mcp-server) | Message Control Protocol Server / Servidor de protocolo MCP |
 
-Entorno DevOps real (Jenkins + Kubernetes + IA) para integraciones locales con agentes inteligentes:
-- Análisis automático de logs de Jenkins
-- Linting semántico de Helm Charts comprimidos (.tgz)
-- Generación de pipelines desde texto libre
-- Registro vectorial del contexto del desarrollo (código, cambios, errores)
-- Despliegue modular con Helm y ArgoCD (GitOps)
-- Entrenamiento automatizado de modelos NeRF vía Jobs de Kubernetes
-- Agente LangChain conectado a Ollama local (con fallback a OpenAI)
+### AI & GPU Tools / Herramientas IA y GPU
 
----
+| Repository / Repositorio | Description / Descripción |
+|------------------------|------------------------|
+| [ai-instant-ngp](https://github.com/dorado-ai-devops/ai-instant-ngp) | NeRF Training Service / Servicio entrenamiento NeRF |
+| [ai-colmap-init](https://github.com/dorado-ai-devops/ai-colmap-init) | Dataset Initialization / Inicialización de datasets |
+| [ai-vector-db](https://github.com/dorado-ai-devops/ai-vector-db) | Vector Database / Base de datos vectorial |
 
-Full local DevOps environment (Jenkins + Kubernetes + AI) powered by intelligent agents:
-- Auto log analysis (Jenkins)
-- Semantic linting of compressed Helm Charts (.tgz)
-- Natural language pipeline generation
-- Vector database for development context (code, changelog, logs)
-- Modular deployment with Helm + ArgoCD (GitOps)
-- Automated NeRF model training via Kubernetes Jobs
-- LangChain agent connected to local Ollama with OpenAI fallback
+### DevOps Tools / Herramientas DevOps
 
----
+| Repository / Repositorio | Description / Descripción |
+|------------------------|------------------------|
+| [ai-helm-linter](https://github.com/dorado-ai-devops/ai-helm-linter) | Helm Chart Validator / Validador de charts |
+| [ai-log-analyzer](https://github.com/dorado-ai-devops/ai-log-analyzer-devops) | AI Log Analysis / Análisis de logs con IA |
+| [ai-pipeline-gen](https://github.com/dorado-ai-devops/ai-pipeline-gen) | Pipeline Generator / Generador de pipelines |
 
-🧠 **Modular • 100% local • AI-augmented DevOps**  
-🧠 **Modular • Totalmente local • DevOps aumentado con IA**
+### UI & Monitoring / Interfaces y Monitoreo
 
----
+| Repository / Repositorio | Description / Descripción |
+|------------------------|------------------------|
+| [ai-chat-ui](https://github.com/dorado-ai-devops/ai-chat-ui) | Web Chat Interface / Interfaz web de chat |
+| [ai-streamlit-dashboard](https://github.com/dorado-ai-devops/ai-streamlit-dashboard) | Metrics Dashboard / Dashboard de métricas |
 
-## ⚙️ Core Tools
+## 📦 Quick Start / Inicio Rápidoiagram](./images/devops-ai-lab.drawio.gif)
 
-- 🧱 `generate-pipeline`: genera un Jenkinsfile desde una descripción en lenguaje natural.
-- 🔍 `analyze-log`: analiza logs de Jenkins y detecta errores comunes.
-- 🧪 `lint-chart`: valida Charts Helm `.tgz` y explica su estructura y problemas.
-- 🎥 `train-nerf`: entrena modelos NeRF desde datasets de imágenes usando GPUs en Kubernetes.
-- 🧠 `ask-agent`: permite consultas tipo RAG (Retrieval-Augmented Generation) sobre el contexto técnico (repos, logs, código, etc.).
-- 📦 `list-repos`: lista repositorios y su contenido desde GitHub.
+> 🌐 **[Documentation in English](./README_ENG.md)** | **[Documentación en Español](./README_ES.md)**
 
----
 
-## 🔄 Ejemplos de Flujos Reales
 
-### 💻 Flujo DevOps
-1. Un desarrollador hace **push** con nuevos cambios a GitHub.
-2. Jenkins ejecuta el pipeline generado por IA y compila la aplicación.
-3. La build inyecta el changelog, logs, y metadata contextual en una **base vectorial**.
-4. Si la build **falla**, los logs y el historial son enviados al **Agente LangChain**.
-5. El agente utiliza herramientas internas (analyze-log, lint-chart, etc.) para diagnosticar el error.
-6. Toda la actividad (consultas, respuestas, recomendaciones) queda registrada y disponible para revisión en un **dashboard de seguimiento**.
+## 🔑 Key Features / Características Principales
 
-### 🎥 Flujo NeRF
-1. Un usuario sube un dataset de imágenes al PVC compartido.
-2. El agente LangChain recibe la petición de entrenamiento NeRF.
-3. Se genera un Job de Kubernetes usando el **chart de Helm** personalizado.
-4. ArgoCD despliega el Job que ejecuta **Instant-NGP** con soporte CUDA.
-5. El Job procesa el dataset y genera el modelo 3D neural.
-6. El resultado se almacena en el PVC para su visualización o uso posterior.
+🤖 **AI Agent & Tools / Agente y Herramientas IA**
+- LangChain Agent + Local LLM (Ollama)
+- Log Analysis / Análisis de logs
+- Chart Linting / Validación de charts
+- Pipeline Generation / Generación de pipelines
 
----
+🎨 **3D & GPU Features / Funciones 3D y GPU**
+- NeRF Training Jobs / Jobs de entrenamiento NeRF
+- NVIDIA DCGM Monitoring / Monitorización NVIDIA DCGM
+- GPU-Ready Infrastructure / Infraestructura GPU
 
-## 📚 Docs / Documentación
+🔄 **DevOps Integration / Integración DevOps**
+- GitOps with ArgoCD / GitOps con ArgoCD
+- Helm Charts
+- Jenkins CI/CD
+- Vector Database / Base de datos vectorial
 
-- 🇪🇸 [README en Español](./README_ES.md): guía completa de arquitectura, servicios y despliegue.
-- 🇬🇧 [README in English](./README_ENG.md): full guide to architecture, included services, and local setup.
-
----
 
 **Maintained by / Mantenido por**  
 [@dorado-ai-devops](https://github.com/dorado-ai-devops)  
