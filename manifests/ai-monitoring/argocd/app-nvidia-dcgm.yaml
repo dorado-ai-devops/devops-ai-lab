@@ -4,23 +4,20 @@ metadata:
   name: dcgm-exporter
   namespace: argocd
 spec:
-  project: default
+  project: devops-ai-project
   source:
-    repoURL: https://nvidia.github.io/dcgm-exporter/helm-charts
-    chart: dcgm-exporter
-    targetRevision: 3.3.9
+    repoURL: git@github.com/dorado-ai-devops/devops-ai-lab.git
+    targetRevision: HEAD
+    path: helm-nvidia-dcgm
     helm:
-      releaseName: dcgm-exporter
-      values: |
-        resources:
-          limits:
-            nvidia.com/gpu: 1
+      valueFiles:
+        - ../argocd/values_nvidia.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
   syncPolicy:
     automated:
-      prune: true
       selfHeal: true
+      prune: true
     syncOptions:
       - CreateNamespace=true
