@@ -25,6 +25,11 @@ Each component has its own repository with detailed documentation / Cada compone
 |------------------------|------------------------|
 | [ai-instant-ngp](https://github.com/dorado-ai-devops/ai-instant-ngp) | NeRF Training Service / Servicio entrenamiento NeRF |
 | [ai-colmap-init](https://github.com/dorado-ai-devops/ai-colmap-init) | Dataset Initialization / Inicialización de datasets |
+
+### Context / Contexto
+
+| Repository / Repositorio | Description / Descripción |
+|------------------------|------------------------|
 | [ai-vector-db](https://github.com/dorado-ai-devops/ai-vector-db) | Vector Database / Base de datos vectorial |
 
 ### DevOps Tools / Herramientas DevOps
