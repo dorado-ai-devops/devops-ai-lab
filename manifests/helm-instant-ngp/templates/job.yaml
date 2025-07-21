@@ -24,6 +24,8 @@ spec:
               value: "{{ .Values.imgCopyMode }}"
             - name: DATA_PATH
               value: "{{ .Values.volume.mountPath }}/{{ .Values.datasetName }}"
+            - name: IMG_TYPE
+              value: "{{ .Values.imgType }}"
           volumeMounts:
             - name: nerf-data
               mountPath: {{ .Values.volume.mountPath }}
