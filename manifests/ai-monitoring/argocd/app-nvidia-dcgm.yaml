@@ -11,8 +11,14 @@ spec:
     targetRevision: 4.2.0
     helm:
       releaseName: dcgm-exporter
-      valueFiles:
-        - ../ai-monitoring/argocd/values_nvidia.yaml
+      values: |
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+
+        env:
+          - name: LD_LIBRARY_PATH
+            value: "/usr/local/nvidia/lib64"
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
