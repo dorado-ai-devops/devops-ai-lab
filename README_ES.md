@@ -1,28 +1,8 @@
 # 🧠 devops-ai-lab
 
-Solución modular y local p├── cluster/                   # Configs del clúster Kind
-│   └── nvidia/               # Config NVIDIA device plugin
-├── docs/                      # Diagramas y documentación técnica
-├── images/                    # Diagramas e imágenes
-├── manifests/
-│   ├── ai-agent/             # Agente LangChain
-│   ├── ai-gateway/           # Router API
-│   ├── ai-helm-linter/       # Validador de charts
-│   ├── ai-instant-ngp/       # Entrenador NeRF
-│   ├── ai-colmap-init/       # Inicializador datasets
-│   ├── ai-monitoring/        # Stack monitorización
-│   │   ├── prometheus/       # Servidor de métricas
-│   │   ├── dcgm-exporter/   # Exportador NVIDIA
-│   │   └── grafana/         # Dashboards GPU
-│   ├── ai-log-analyzer/
-│   ├── ai-mcp-server/
-│   ├── ai-ollama/
-│   ├── ai-pipeline-gen/
-│   ├── helm-*/               # Charts de Helm por servicio
-│   └── jenkins/              # Jenkins charts y configal a pipelines CI/CD: orquesta, automatiza y audita tareas clave de DevOps con agentes inteligentes y microservicios especializados.
 
-Repositorio modular para **integrar inteligencia artificial en pipelines CI/CD y flujos DevOps modernos**.\
-Aborda desde la raíz la integración práctica de LLMs y agentes IA en DevOps, combinando automatización inteligente con tareas aceleradas por GPU como entrenamiento NeRF. Implementa una separación estricta entre razonamiento (LangChain Agent) y microservicios funcionales independientes. Infraestructura 100% local: Kubernetes (Kind), Jenkins, ArgoCD, tareas CUDA y microservicios IA plug&play.
+Un repositorio modular para integrar inteligencia artificial en pipelines CI/CD y flujos de trabajo modernos de DevOps.
+Permite la integración práctica de LLMs y agentes de IA en DevOps de manera local, combinando automatización inteligente con tareas aceleradas por GPU, como el entrenamiento de NeRF. Presenta una separación estricta entre el razonamiento (LangChain Agent) y microservicios funcionales independientes. Infraestructura 100% local: Kubernetes (k3s), Jenkins, ArgoCD, tareas habilitadas con CUDA y microservicios de IA plug&play.
 
 ---
 
