@@ -1,0 +1,57 @@
+image:
+  repository: nvcr.io/nvidia/k8s/dcgm-exporter
+  pullPolicy: IfNotPresent
+  tag: 3.3.9-3.6.1-ubuntu22.04
+
+arguments: ["-f", "/etc/dcgm-exporter/dcp-metrics-included.csv"]
+
+imagePullSecrets:
+  - name: nvcr-secret
+
+runtimeClassName: "nvidia"
+
+serviceAccount:
+  create: true
+
+rollingUpdate:
+  maxUnavailable: 1
+  maxSurge: 0
+
+securityContext:
+  runAsNonRoot: false
+  runAsUser: 0
+  capabilities:
+    add: ["SYS_ADMIN"]
+
+resources:
+  limits:
+    nvidia.com/gpu: 1
+
+service:
+  enable: true
+  type: ClusterIP
+  port: 9400
+  address: ":9400"
+
+serviceMonitor:
+  apiVersion: "monitoring.coreos.com/v1"
+  enabled: true
+  interval: 15s
+
+nodeSelector:
+  kubernetes.io/hostname: deletepc
+
+extraConfigMapVolumes:
+  - name: exporter-metrics-volume
+    configMap:
+      name: exporter-metrics-config-map
+      items:
+      - key: metrics
+        path: dcp-metrics-included.csv
+
+extraVolumeMounts:
+  - name: exporter-metrics-volume
+    mountPath: /etc/dcgm-exporter/dcp-metrics-included.csv
+    subPath: dcp-metrics-included.csv
+
+kubeletPath: "/var/lib/kubelet/pod-resources"
