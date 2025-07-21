@@ -8,17 +8,13 @@ spec:
   source:
     repoURL: https://nvidia.github.io/dcgm-exporter/helm-charts
     chart: dcgm-exporter
-    targetRevision: 4.2.0
+    targetRevision: 3.3.9
     helm:
       releaseName: dcgm-exporter
       values: |
         resources:
           limits:
             nvidia.com/gpu: 1
-
-        env:
-          - name: LD_LIBRARY_PATH
-            value: "/usr/local/nvidia/lib64"
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
