@@ -1,6 +1,6 @@
 image:
   repository: localhost:5000/nerf-trainer
-  tag: "v0.1.9"
+  tag: "v0.2.1"
   pullPolicy: IfNotPresent
 
 resources:
@@ -21,8 +21,8 @@ imgType: png
 
 init:
   image:
-    repository: localhost:5000/colmap-init
-    tag: "v0.2.01"
+    repository: localhost:5000/nerf-trainer
+    tag: "v0.2.1"
     pullPolicy: IfNotPresent
   resources:
     requests:
