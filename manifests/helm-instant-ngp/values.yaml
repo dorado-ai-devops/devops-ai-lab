@@ -22,7 +22,7 @@ imgType: png
 init:
   image:
     repository: localhost:5000/colmap-init
-    tag: "v0.1.26"
+    tag: "v0.1.29"
     pullPolicy: IfNotPresent
   resources:
     requests:
