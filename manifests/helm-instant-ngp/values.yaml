@@ -1,6 +1,6 @@
 image:
   repository: localhost:5000/nerf-trainer
-  tag: "v0.2.2"
+  tag: "v0.2.3"
   pullPolicy: IfNotPresent
 
 resources:
@@ -18,10 +18,11 @@ volume:
 datasetName: lego-ds
 imgCopyMode: TOTAL
 imgType: png
+nSteps: 15000
 
 init:
   image:
-    repository: localhost:5000/colmap-init
+    repository: localhost:5000/nerf-trainer
     tag: "v0.2.3"
     pullPolicy: IfNotPresent
   resources:
