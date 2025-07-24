@@ -26,6 +26,8 @@ spec:
               value: "{{ .Values.volume.mountPath }}/{{ .Values.datasetName }}"
             - name: IMG_TYPE
               value: "{{ .Values.imgType }}"
+            - name: N_STEPS
+              value: "{{ .Values.nSteps }}"
           volumeMounts:
             - name: nerf-data
               mountPath: {{ .Values.volume.mountPath }}
