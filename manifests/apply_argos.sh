@@ -4,11 +4,11 @@ set -euo pipefail
 NAMESPACE="argocd"
 ROOT_DIR="$(pwd)"
 
-echo "🌱 Aplicando todos los ArgoCD AppManifests en namespace '$NAMESPACE'..."
+echo " Aplicando todos los ArgoCD AppManifests en namespace '$NAMESPACE'..."
 
 # Asegúrate de que el namespace exista
 kubectl get ns $NAMESPACE &>/dev/null || {
-  echo "⚠️  Namespace '$NAMESPACE' no existe. Créalo con: kubectl create namespace $NAMESPACE"
+  echo "️  Namespace '$NAMESPACE' no existe. Créalo con: kubectl create namespace $NAMESPACE"
   exit 1
 }
 
@@ -24,9 +24,9 @@ for d in "$ROOT_DIR"/*/argocd; do
     fi
     echo "   → kubectl apply -n $NAMESPACE -f $y"
     if ! kubectl apply -n $NAMESPACE -f "$y"; then
-      echo "     ❌ Error al aplicar $y, se continúa con el siguiente."
+      echo "      Error al aplicar $y, se continúa con el siguiente."
     fi
   done
 done
 
-echo -e "\n✅ Aplicación de ArgoCD Apps completada."
+echo -e "\n Aplicación de ArgoCD Apps completada."
