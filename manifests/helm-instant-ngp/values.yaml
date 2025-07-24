@@ -1,6 +1,6 @@
 image:
   repository: localhost:5000/nerf-trainer
-  tag: "v0.2.5"
+  tag: "v0.2.6"
   pullPolicy: IfNotPresent
 
 resources:
@@ -22,8 +22,8 @@ nSteps: 15000
 
 init:
   image:
-    repository: localhost:5000/colmap-init
-    tag: "v0.2.3"
+    repository: localhost:5000/nerf-trainer
+    tag: "v0.2.6"
     pullPolicy: IfNotPresent
   resources:
     requests:
