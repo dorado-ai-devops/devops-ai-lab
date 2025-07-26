@@ -29,7 +29,7 @@ spec:
             - name: N_STEPS
               value: "{{ .Values.nSteps }}"
             - name: FAST
-              value: "{{ .Values.fastNerf | quote }}"
+              value: "{{ .Values.fastNerf }}"
           volumeMounts:
             - name: nerf-data
               mountPath: {{ .Values.volume.mountPath }}
