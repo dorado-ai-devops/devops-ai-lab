@@ -44,6 +44,10 @@ spec:
           env:
             - name: DATA_PATH
               value: "{{ .Values.volume.mountPath }}/{{ .Values.datasetName }}"
+            - name: FAST
+              value: "{{ .Values.fastNerf }}"
+            - name: N_STEPS
+              value: "{{ .Values.nSteps }}"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 
