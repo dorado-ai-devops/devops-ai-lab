@@ -1,6 +1,6 @@
 image:
   repository: localhost:5000/nerf-trainer
-  tag: "v1.0.1"
+  tag: "v0.2.9"
   pullPolicy: IfNotPresent
 
 resources:
@@ -22,7 +22,7 @@ imgType: jpg
 
 #Values training
 nSteps: 15000
-FAST: true # True-> fastNerf on false -> standalone ngp
+fastNerf: true # True-> fastNerf on false -> standalone ngp
 
 init:
   image:
