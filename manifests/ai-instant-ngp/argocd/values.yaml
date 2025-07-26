@@ -3,4 +3,4 @@ imgCopyMode: TOTAL
 imgType: jpg
 nSteps: 15000
 fastNerf: true # True-> fastNerf on false -> standalone ngp
-prepareData: true # Prepare dataset
+prepareData: false
