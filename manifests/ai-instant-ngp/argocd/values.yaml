@@ -1,4 +1,4 @@
-datasetName: lego-ds
+datasetName: access-virus-ds
 imgCopyMode: TOTAL
-imgType: png
+imgType: jpg
 nSteps: 15000
