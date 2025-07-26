@@ -1,6 +1,6 @@
 image:
   repository: localhost:5000/nerf-trainer
-  tag: "v3.0.7"
+  tag: "v3.0.8"
   pullPolicy: IfNotPresent
 
 resources:
