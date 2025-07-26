@@ -15,10 +15,13 @@ volume:
   pvcName: pvc-datos-nerf
   mountPath: /data
 
+#Prepare dataset
+prepareData: true
 #Values dataset
 datasetName: access-virus-ds
 imgCopyMode: TOTAL
 imgType: jpg
+
 
 #Values training
 nSteps: 15000
