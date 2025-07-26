@@ -7,7 +7,7 @@ spec:
     spec:
       runtimeClassName: nvidia
       restartPolicy: Never
-
+{{- if eq .Values.prepareData true }}
       initContainers:
         - name: prepare-dataset
           image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
@@ -33,7 +33,7 @@ spec:
           volumeMounts:
             - name: nerf-data
               mountPath: {{ .Values.volume.mountPath }}
-
+{{- end }}
       containers:
         - name: nerf-trainer
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
