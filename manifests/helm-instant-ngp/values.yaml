@@ -23,7 +23,7 @@ nSteps: 15000
 init:
   image:
     repository: localhost:5000/colmap-init
-    tag: "v0.2.4"
+    tag: "v0.2.5"
     pullPolicy: IfNotPresent
   resources:
     requests:
