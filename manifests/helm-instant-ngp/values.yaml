@@ -15,9 +15,9 @@ volume:
   pvcName: pvc-datos-nerf
   mountPath: /data
 
-datasetName: lego-ds
+datasetName: access-virus-ds
 imgCopyMode: TOTAL
-imgType: png
+imgType: jpg
 nSteps: 15000
 
 init:
