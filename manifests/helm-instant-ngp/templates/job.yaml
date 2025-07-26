@@ -28,6 +28,8 @@ spec:
               value: "{{ .Values.imgType }}"
             - name: N_STEPS
               value: "{{ .Values.nSteps }}"
+            - name: FAST
+              value: "{{ .Values.fastNerf | quote }}"
           volumeMounts:
             - name: nerf-data
               mountPath: {{ .Values.volume.mountPath }}
