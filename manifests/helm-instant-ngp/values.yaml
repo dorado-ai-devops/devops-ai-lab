@@ -1,6 +1,6 @@
 image:
   repository: localhost:5000/nerf-trainer
-  tag: "v0.2.9"
+  tag: "v1.0.0"
   pullPolicy: IfNotPresent
 
 resources:
@@ -15,10 +15,14 @@ volume:
   pvcName: pvc-datos-nerf
   mountPath: /data
 
+#Values dataset
 datasetName: access-virus-ds
 imgCopyMode: TOTAL
 imgType: jpg
+
+#Values training
 nSteps: 15000
+FAST: true # True-> fastNerf on false -> standalone ngp
 
 init:
   image:
