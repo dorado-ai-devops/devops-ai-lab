@@ -1,6 +1,6 @@
 image:
   repository: localhost:5000/nerf-trainer
-  tag: "v0.2.9"
+  tag: "v3.0.0"
   pullPolicy: IfNotPresent
 
 resources:
@@ -27,7 +27,7 @@ fastNerf: true # True-> fastNerf on false -> standalone ngp
 init:
   image:
     repository: localhost:5000/colmap-init
-    tag: "v0.3.2"
+    tag: "v3.0.0"
     pullPolicy: IfNotPresent
   resources:
     requests:
