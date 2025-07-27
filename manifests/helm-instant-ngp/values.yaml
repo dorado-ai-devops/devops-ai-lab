@@ -30,7 +30,7 @@ fastNerf: true # True-> fastNerf on false -> standalone ngp
 init:
   image:
     repository: localhost:5000/colmap-init
-    tag: "v1.0.3"
+    tag: "v1.0.4"
     pullPolicy: IfNotPresent
   resources:
     requests:
