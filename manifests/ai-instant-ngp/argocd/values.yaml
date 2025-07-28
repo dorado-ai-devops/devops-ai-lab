@@ -2,6 +2,6 @@ datasetName: access-virus-ds
 imgCopyMode: TOTAL
 imgType: jpg
 nSteps: 40000
-fastNerf: true 
+fastNerf: false
 prepareData: true
 sam: false
