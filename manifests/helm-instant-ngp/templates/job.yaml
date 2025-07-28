@@ -30,6 +30,8 @@ spec:
               value: "{{ .Values.nSteps }}"
             - name: FAST
               value: "{{ .Values.fastNerf }}"
+            - name: SAM
+              value: "{{ .Values.sam }}"
           volumeMounts:
             - name: nerf-data
               mountPath: {{ .Values.volume.mountPath }}

@@ -26,11 +26,13 @@ imgType: jpg
 #Values training
 nSteps: 15000
 fastNerf: true # True-> fastNerf on false -> standalone ngp
+#Values Preprocess
+sam: true 
 
 init:
   image:
     repository: localhost:5000/colmap-init
-    tag: "v1.0.8"
+    tag: "v1.0.9"
     pullPolicy: IfNotPresent
   resources:
     requests:

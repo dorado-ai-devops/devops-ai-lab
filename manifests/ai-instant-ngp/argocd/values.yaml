@@ -1,6 +1,7 @@
 datasetName: access-virus-ds-nobg
 imgCopyMode: TOTAL
 imgType: jpg
-nSteps: 15000
-fastNerf: true # True-> fastNerf on false -> standalone ngp
+nSteps: 30000
+fastNerf: true 
 prepareData: true
+sam: false
