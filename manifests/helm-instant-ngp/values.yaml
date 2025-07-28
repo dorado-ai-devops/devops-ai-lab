@@ -32,7 +32,7 @@ sam: true
 init:
   image:
     repository: localhost:5000/colmap-init
-    tag: "v1.0.11"
+    tag: "v1.0.12"
     pullPolicy: IfNotPresent
   resources:
     requests:
