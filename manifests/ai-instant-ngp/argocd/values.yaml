@@ -1,7 +1,7 @@
-datasetName: access-virus-ds-nobg
+datasetName: access-virus-ds
 imgCopyMode: TOTAL
 imgType: jpg
-nSteps: 30000
+nSteps: 40000
 fastNerf: true 
 prepareData: true
 sam: false
