@@ -1,5 +1,5 @@
 datasetName: studio-ds
-imgCopyMode: TOTAL
+imgCopyMode: 100
 imgType: jpg
 nSteps: 30000
 fastNerf: false
