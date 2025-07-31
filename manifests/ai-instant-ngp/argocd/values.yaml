@@ -1,6 +1,6 @@
-datasetName: access-virus-ds
-imgCopyMode: 100
-imgType: jpg
+datasetName: dex_nerf_simulated_clutter_light_array
+imgCopyMode: TOTAL
+imgType: png
 nSteps: 30000
 fastNerf: false
 prepareData: true
