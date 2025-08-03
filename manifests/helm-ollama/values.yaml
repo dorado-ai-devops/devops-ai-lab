@@ -1,15 +1,14 @@
-replicaCount: 1  # No escalar Ollama en paralelo, usa GPU dedicada
+replicaCount: 1
 
 image:
   repository: ollama/ollama
-  tag: cuda          # Versión específica compatible con CUDA/GPU
+  tag: cuda              # Imagen compatible con CUDA/GPU
   pullPolicy: IfNotPresent
 
 resources:
   requests:
     cpu: "2"
     memory: "8Gi"
-    nvidia.com/gpu: 1
   limits:
     cpu: "4"
     memory: "16Gi"
@@ -22,38 +21,7 @@ service:
 persistence:
   enabled: true
   mountPath: /root/.ollama
+  volumeName: ollama-data
   existingClaim: ollama-pvc
 
-env:
-  - name: OLLAMA_NUM_PARALLEL
-    value: "8"                          # Threads internos, ajustable según GPU
-  - name: OLLAMA_MAX_LOADED_MODELS
-    value: "2"                          # Máximo de modelos cargados en memoria para evitar swaps
-  - name: CUDA_VISIBLE_DEVICES
-    value: "0"                          # GPU explícita (asegura uso GPU correcta)
-
-livenessProbe:
-  httpGet:
-    path: /api/tags
-    port: 11434
-  initialDelaySeconds: 30
-  periodSeconds: 15
-  timeoutSeconds: 5
-
-readinessProbe:
-  httpGet:
-    path: /api/tags
-    port: 11434
-  initialDelaySeconds: 20
-  periodSeconds: 10
-  timeoutSeconds: 5
-
 revisionHistoryLimit: 3
-
-nodeSelector:
-  nvidia.com/gpu.present: "true"        # asegurar nodo con GPU
-
-tolerations:
-  - key: nvidia.com/gpu
-    operator: Exists
-    effect: NoSchedule
