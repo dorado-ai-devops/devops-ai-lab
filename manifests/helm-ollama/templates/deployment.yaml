@@ -20,13 +20,56 @@ spec:
         - name: ollama
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            # Variables del values.yaml
+            {{- with .Values.env }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            # Alinea la ruta de modelos con el PVC
+            - name: OLLAMA_MODELS
+              value: {{ .Values.persistence.mountPath }}
           ports:
             - containerPort: {{ .Values.service.port }}
           command: ["/bin/sh", "-c"]
           args:
             - |
-              ollama serve & 
-              sleep 5 && ollama pull gpt-oss:20b && wait
+              set -e
+              # Asegura el directorio de modelos (PVC)
+              mkdir -p "${OLLAMA_MODELS:-{{ .Values.persistence.mountPath }}}"
+
+              # Arranca servidor temporal para poder usar CLI/API
+              ollama serve & pid=$!
+              i=0; until curl -fsS 127.0.0.1:11434/api/version >/dev/null || [ $i -ge 180 ]; do i=$((i+1)); sleep 1; done
+
+              # Pull del modelo base dentro del PVC
+              ollama pull gpt-oss:20b || true
+
+              # Wrappers compatibles (solo si faltan)
+              if ! ollama list | awk '{print $1}' | grep -qx "gpt-oss-20b-generate-fixed:latest"; then
+                cat >/tmp/Modelfile.generate <<'EOF'
+              FROM gpt-oss:20b
+              TEMPLATE """{{ .Prompt }}"""
+              EOF
+                ollama create gpt-oss-20b-generate-fixed -f /tmp/Modelfile.generate || true
+              fi
+
+              if ! ollama list | awk '{print $1}' | grep -qx "gpt-oss-20b-chat-fixed:latest"; then
+                cat >/tmp/Modelfile.chat <<'EOF'
+              FROM gpt-oss:20b
+              TEMPLATE """{{- if .System }}<|start_header_id|>system<|end_header_id|>
+              {{ .System }}{{ end }}
+              {{- range .Messages }}
+              <|start_header_id|>{{ .Role }}<|end_header_id|>
+              {{ .Content }}
+              {{- end }}
+              <|start_header_id|>assistant<|end_header_id|>"""
+              EOF
+                ollama create gpt-oss-20b-chat-fixed -f /tmp/Modelfile.chat || true
+              fi
+
+              # Reinicia en foreground
+              kill $pid; wait $pid 2>/dev/null || true
+              exec ollama serve
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
@@ -34,10 +77,16 @@ spec:
               mountPath: {{ .Values.persistence.mountPath }}
           readinessProbe:
             httpGet:
-              path: /
+              path: /api/version
               port: {{ .Values.service.port }}
             initialDelaySeconds: 10
             periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/version
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 20
+            periodSeconds: 10
       volumes:
         - name: {{ .Values.persistence.volumeName }}
           persistentVolumeClaim:
