@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: ollama/ollama
-  tag: latest
+  repository: localhost:5000/ai-ollama
+  tag: "1.0.1"
   pullPolicy: IfNotPresent
 
 service:
