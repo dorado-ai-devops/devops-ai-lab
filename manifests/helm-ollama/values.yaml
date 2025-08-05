@@ -2,9 +2,16 @@ replicaCount: 1
 
 image:
   repository: ollama/ollama
-  tag: latest              # Imagen compatible con CUDA/GPU
+  tag: latest              
   pullPolicy: always
-
+env:
+  - name: OLLAMA_NEW_ENGINE
+    value: "true"
+  # opcionales útiles en prod
+  - name: OLLAMA_DEBUG
+    value: "INFO"
+  - name: OLLAMA_KEEP_ALIVE
+    value: "5m"
 resources:
   requests:
     cpu: "2"
