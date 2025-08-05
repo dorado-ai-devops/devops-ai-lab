@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: ollama/ollama
-  tag: latest              
-  pullPolicy: always
+  repository: localhost:5000/ai-ollama
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
 env:
   - name: OLLAMA_NEW_ENGINE
     value: "true"
