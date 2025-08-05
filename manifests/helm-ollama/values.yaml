@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: ollama/ollama
   tag: cuda              # Imagen compatible con CUDA/GPU
-  pullPolicy: IfNotPresent
+  pullPolicy: always
 
 resources:
   requests:
