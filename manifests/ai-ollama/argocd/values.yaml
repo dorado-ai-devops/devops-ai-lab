@@ -1,9 +1,6 @@
 replicaCount: 1
 
-image:
-  repository: localhost:5000/ai-ollama
-  tag: "1.0.1"
-  pullPolicy: IfNotPresent
+
 
 service:
   type: ClusterIP
