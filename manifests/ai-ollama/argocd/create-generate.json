@@ -1,0 +1,6 @@
+{
+  "model": "gpt-oss-20b-generate",
+  "from": "gpt-oss:20b",
+  "modelfile": "TEMPLATE \"\"\"{{ .Prompt }}\"\"\"",
+  "stream": false
+}

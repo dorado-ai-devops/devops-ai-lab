@@ -1,0 +1,6 @@
+{
+  "model": "gpt-oss-20b-chat",
+  "from": "gpt-oss:20b",
+  "modelfile": "TEMPLATE \"\"\"{{- if .System }}<|start_header_id|>system<|end_header_id|>\n{{ .System }}{{ end }}\n{{- range .Messages }}\n<|start_header_id|>{{ .Role }}<|end_header_id|>\n{{ .Content }}\n{{- end }}\n<|start_header_id|>assistant<|end_header_id|>\"\"\"",
+  "stream": false
+}
