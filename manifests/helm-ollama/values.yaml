@@ -12,7 +12,7 @@ env:
     value: "DEBUG"
   - name: OLLAMA_KEEP_ALIVE
     value: "5m"
-  # Alinea la ruta de modelos con el PVC montado
+
   - name: OLLAMA_MODELS
     value: /root/.ollama
 
